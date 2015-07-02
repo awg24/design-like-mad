@@ -11,3 +11,8 @@ applicants will be ranked based on their skill as determined by the organization
 
 Each non-profit selected will have a project to work on which will have a certain "type" associated with it
 and applicants will be sorted into those groups if they are of matching "type" (or similar) and each group will have differeing level of skills which is based on the organization's members. Each group will have at least one student.
+
+
+Mockup: https://allenwg.mybalsamiq.com/projects/designlikemad/
+
+Trello: https://trello.com/b/cvzlbZ2n/desgin-like-mad
