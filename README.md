@@ -19,4 +19,4 @@ Trello: https://trello.com/b/cvzlbZ2n/desgin-like-mad
 
 Models: scripts/models/
 
-APIs & Libraries: React, Backbone, Parse, Validator, if theres time.. Express/nodemailer for email sending
+APIs & Libraries: React, Backbone, Parse, Validator, Filepicker, if theres time.. Express/nodemailer for email sending
