@@ -16,3 +16,5 @@ and applicants will be sorted into those groups if they are of matching "type" (
 Mockup: https://allenwg.mybalsamiq.com/projects/designlikemad/
 
 Trello: https://trello.com/b/cvzlbZ2n/desgin-like-mad
+
+Models: scripts/models/
