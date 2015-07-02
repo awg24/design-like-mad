@@ -18,3 +18,5 @@ Mockup: https://allenwg.mybalsamiq.com/projects/designlikemad/
 Trello: https://trello.com/b/cvzlbZ2n/desgin-like-mad
 
 Models: scripts/models/
+
+APIs & Libraries: React, Backbone, Parse, Validator, if theres time.. Express/nodemailer for email sending
