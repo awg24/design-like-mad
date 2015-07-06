@@ -1,0 +1,50 @@
+.blue-block {
+	height: 200px;
+	background: blue;
+}
+.add-margin {
+	margin-right: auto;
+	margin-left: auto;
+}
+.well {
+	margin:47px;
+}
+.half-height {
+	height: 350px;
+	color: white;
+	font-family: fantasy;
+	padding: 100px;
+	font-size: 80px;
+	background: #4F364C;
+}
+.half-height-2 {
+	height: 430px;
+	background: #8F9E6F;
+	border-top: 5px solid #B1CF72;
+}
+.btn-forest {
+	height: 60px;
+	font-size: 25px;
+	margin-top: 20px;
+	background: #5E405F;
+	color: white;
+}
+.btn-forest-2 {
+	height: 35px;
+	width: 300px;
+	font-size: 17px;
+	margin-top: 20px;
+	background: #5E405F;
+	color: white;
+}
+.input-fantasy {
+	height: 35px;
+	width: 300px;
+}
+.go-white {
+	font-family: fantasy;
+	color: white;
+}
+.take-margin {
+	margin-top: -10px;
+}
