@@ -33877,7 +33877,7 @@ module.exports = React.createClass({
 				),
 				React.createElement(
 					"form",
-					{ onSubmit: this.goToChoice },
+					{ onSubmit: this.validateSignUp },
 					React.createElement("input", { ref: "name", className: "input-fantasy", type: "text", placeholder: "Name" }),
 					React.createElement("br", null),
 					React.createElement(
@@ -33951,7 +33951,7 @@ module.exports = React.createClass({
 			)
 		);
 	},
-	goToChoice: function goToChoice(event) {
+	validateSignUp: function validateSignUp(event) {
 		event.preventDefault();
 		var that = this;
 
@@ -34097,15 +34097,6 @@ var App = Backbone.Router.extend({
 	},
 	profile: function profile(type) {
 		React.render(React.createElement(ProfilePage, { userType: type, routing: this }), containerEl);
-	},
-	applicant: function applicant() {
-		React.render(React.createElement(ForApplicant, { routing: this }), profileEl);
-	},
-	nonProfit: function nonProfit() {
-		React.render(React.createElement(ForNonProfit, { routing: this }), profileEl);
-	},
-	org: function org() {
-		React.render(React.createElement(ForOrg, { routing: this }), profileEl);
 	}
 });
 

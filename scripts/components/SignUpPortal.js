@@ -16,7 +16,7 @@ module.exports = React.createClass({
 				<div className="text-center container-fluid half-height-2">
 				<span className="errors">{this.state.errors.server}</span>
 				<label className="go-white">Already a member? <a href="#login">Login here!</a></label>
-					<form onSubmit={this.goToChoice}>
+					<form onSubmit={this.validateSignUp}>
 						<input ref="name" className="input-fantasy" type="text" placeholder="Name" /><br/>
 						<span className="errors">{this.state.errors.name}</span><br/>
 						<input ref="email" className="input-fantasy" type="text" placeholder="Email" /><br/>
@@ -38,7 +38,7 @@ module.exports = React.createClass({
 			</div>
 		);
 	},
-	goToChoice: function(event){
+	validateSignUp: function(event){
 		event.preventDefault();
 		var that = this;
 

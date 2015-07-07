@@ -31,15 +31,6 @@ var App = Backbone.Router.extend({
 	},
 	profile: function(type){
 		React.render(<ProfilePage userType={type} routing={this} />, containerEl);
-	},
-	applicant: function(){
-		React.render(<ForApplicant routing={this} />, profileEl);
-	},
-	nonProfit: function(){
-		React.render(<ForNonProfit routing={this} />, profileEl);
-	},
-	org: function(){
-		React.render(<ForOrg routing={this} />, profileEl);
 	}
 });
 
