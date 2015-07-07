@@ -32519,6 +32519,57 @@ module.exports = React.createClass({
 		return React.createElement(
 			"div",
 			null,
+			"Im For applicants!"
+		);
+	}
+});
+
+},{"react":159}],161:[function(require,module,exports){
+"use strict";
+
+var React = require("react");
+
+module.exports = React.createClass({
+	displayName: "exports",
+
+	render: function render() {
+		return React.createElement(
+			"div",
+			null,
+			"Im for non-profits!"
+		);
+	}
+});
+
+},{"react":159}],162:[function(require,module,exports){
+"use strict";
+
+var React = require("react");
+
+module.exports = React.createClass({
+	displayName: "exports",
+
+	render: function render() {
+		return React.createElement(
+			"div",
+			null,
+			"Im for org!"
+		);
+	}
+});
+
+},{"react":159}],163:[function(require,module,exports){
+"use strict";
+
+var React = require("react");
+
+module.exports = React.createClass({
+	displayName: "exports",
+
+	render: function render() {
+		return React.createElement(
+			"div",
+			null,
 			React.createElement(
 				"div",
 				{ className: "container-fluid half-height text-center" },
@@ -32570,11 +32621,90 @@ module.exports = React.createClass({
 	goToChoice: function goToChoice(event) {
 		event.preventDefault();
 		console.log("i work!");
-		this.props.routing.navigate("choice", { trigger: true });
+		this.props.routing.navigate("profile", { trigger: true });
 	}
 });
 
-},{"react":159}],161:[function(require,module,exports){
+},{"react":159}],164:[function(require,module,exports){
+"use strict";
+
+var React = require("react");
+var ForApplicant = require("./ForApplicantComponent");
+var ForNonProfit = require("./ForNonProfitComponent");
+var ForOrg = require("./ForOrgComponent");
+var profileEl = document.getElementById("profile-things");
+
+module.exports = React.createClass({
+	displayName: "exports",
+
+	getInitialState: function getInitialState() {
+		return {
+			displayPage: React.createElement(ForOrg, null)
+		};
+	},
+	render: function render() {
+		return React.createElement(
+			"div",
+			null,
+			React.createElement(
+				"div",
+				{ className: "nav-bar text-center" },
+				"Desgin Like Mad"
+			),
+			React.createElement(
+				"div",
+				{ className: "text-center container-fluid half-height-2-mod" },
+				React.createElement(
+					"ul",
+					{ className: "nav nav-tabs" },
+					React.createElement(
+						"li",
+						{ className: "go-white med-font", role: "presentation" },
+						React.createElement(
+							"a",
+							{ onClick: this.showApplicant },
+							"Applicants"
+						)
+					),
+					React.createElement(
+						"li",
+						{ className: "go-white med-font", role: "presentation" },
+						React.createElement(
+							"a",
+							{ onClick: this.showNonProfit },
+							"Non-Profits"
+						)
+					),
+					React.createElement(
+						"li",
+						{ className: "go-white med-font", role: "presentation" },
+						React.createElement(
+							"a",
+							{ onClick: this.showOrg },
+							"Organizations"
+						)
+					)
+				),
+				React.createElement(
+					"section",
+					{ id: "profile-things" },
+					this.state.displayPage
+				)
+			)
+		);
+	},
+	showApplicant: function showApplicant() {
+		this.setState({ displayPage: React.createElement(ForApplicant, null) });
+	},
+	showNonProfit: function showNonProfit() {
+		this.setState({ displayPage: React.createElement(ForNonProfit, null) });
+	},
+	showOrg: function showOrg() {
+		this.setState({ displayPage: React.createElement(ForOrg, null) });
+	}
+});
+
+},{"./ForApplicantComponent":160,"./ForNonProfitComponent":161,"./ForOrgComponent":162,"react":159}],165:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -32646,11 +32776,11 @@ module.exports = React.createClass({
 	goToChoice: function goToChoice(event) {
 		event.preventDefault();
 		console.log("i work!");
-		this.props.routing.navigate("choice", { trigger: true });
+		this.props.routing.navigate("profile", { trigger: true });
 	}
 });
 
-},{"react":159}],162:[function(require,module,exports){
+},{"react":159}],166:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -32698,7 +32828,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"react":159}],163:[function(require,module,exports){
+},{"react":159}],167:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -32707,6 +32837,10 @@ var Backbone = require("backbone");
 var SplashPage = require("./components/SplashPage");
 var LoginPortal = require("./components/LoginPortal");
 var SignUpPortal = require("./components/SignUpPortal");
+var ProfilePage = require("./components/ProfilePage");
+var ForApplicant = require("./components/ForApplicantComponent");
+var ForNonProfit = require("./components/ForNonProfitComponent");
+var ForOrg = require("./components/ForOrgComponent");
 
 var containerEl = document.getElementById("container");
 
@@ -32714,7 +32848,8 @@ var App = Backbone.Router.extend({
 	routes: {
 		"": "splash",
 		"login": "login",
-		"signUp": "signUp"
+		"signUp": "signUp",
+		"profile": "profile"
 	},
 	splash: function splash() {
 		React.render(React.createElement(SplashPage, { routing: this }), containerEl);
@@ -32724,13 +32859,25 @@ var App = Backbone.Router.extend({
 	},
 	signUp: function signUp() {
 		React.render(React.createElement(SignUpPortal, { routing: this }), containerEl);
+	},
+	profile: function profile() {
+		React.render(React.createElement(ProfilePage, { routing: this }), containerEl);
+	},
+	applicant: function applicant() {
+		React.render(React.createElement(ForApplicant, { routing: this }), profileEl);
+	},
+	nonProfit: function nonProfit() {
+		React.render(React.createElement(ForNonProfit, { routing: this }), profileEl);
+	},
+	org: function org() {
+		React.render(React.createElement(ForOrg, { routing: this }), profileEl);
 	}
 });
 
 var myRoutes = new App();
 Backbone.history.start();
 
-},{"./components/LoginPortal":160,"./components/SignUpPortal":161,"./components/SplashPage":162,"backbone":1,"react":159}]},{},[163])
+},{"./components/ForApplicantComponent":160,"./components/ForNonProfitComponent":161,"./components/ForOrgComponent":162,"./components/LoginPortal":163,"./components/ProfilePage":164,"./components/SignUpPortal":165,"./components/SplashPage":166,"backbone":1,"react":159}]},{},[167])
 
 
 //# sourceMappingURL=all.js.map

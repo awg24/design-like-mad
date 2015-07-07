@@ -32,6 +32,6 @@ module.exports = React.createClass({
 	goToChoice: function(event){
 		event.preventDefault();
 		console.log("i work!");
-		this.props.routing.navigate("choice",{trigger: true});
+		this.props.routing.navigate("profile",{trigger: true});
 	}
 });

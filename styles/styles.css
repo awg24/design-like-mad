@@ -10,15 +10,28 @@
 	margin:47px;
 }
 .half-height {
-	height: 350px;
+	height: 300px;
 	color: white;
 	font-family: fantasy;
 	padding: 100px;
 	font-size: 80px;
 	background: #4F364C;
 }
+.nav-bar {
+	height: 50px;
+	color: white;
+	font-family: fantasy;
+	padding:5px;
+	font-size: 30px;
+	background: #4F364C;
+}
 .half-height-2 {
-	height: 430px;
+	height: 480px;
+	background: #8F9E6F;
+	border-top: 5px solid #B1CF72;
+}
+.half-height-2-mod {
+	height: 730px;
 	background: #8F9E6F;
 	border-top: 5px solid #B1CF72;
 }
@@ -43,8 +56,26 @@
 }
 .go-white {
 	font-family: fantasy;
+	text-decoration: none;
 	color: white;
+}
+a {
+	color: white;
+}
+.med-font {
+	font-size: 18px;
 }
 .take-margin {
 	margin-top: -10px;
+}
+.nav-tabs {
+	color: #4F364C;
+}
+.active {
+	color: #4F364C;
+	background: #4F364C;
+}
+.set-dimensions {
+	height:300px;
+	padding: 30px;
 }
