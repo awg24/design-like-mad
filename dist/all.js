@@ -32519,7 +32519,91 @@ module.exports = React.createClass({
 		return React.createElement(
 			"div",
 			null,
-			"Im For applicants!"
+			React.createElement("br", null),
+			React.createElement("br", null),
+			React.createElement(
+				"form",
+				null,
+				React.createElement(
+					"label",
+					null,
+					"What kind of designer are you?"
+				),
+				React.createElement("br", null),
+				React.createElement(
+					"select",
+					null,
+					React.createElement(
+						"option",
+						{ value: "" },
+						"Nothing Selected"
+					),
+					React.createElement(
+						"option",
+						{ value: "1" },
+						"Web"
+					),
+					React.createElement(
+						"option",
+						{ value: "2" },
+						"Paper"
+					),
+					React.createElement(
+						"option",
+						{ value: "3" },
+						"A Cool One"
+					),
+					React.createElement(
+						"option",
+						{ value: "4" },
+						"An Awesome One"
+					),
+					React.createElement(
+						"option",
+						{ value: "5" },
+						"I kinda suck"
+					)
+				),
+				React.createElement("br", null),
+				React.createElement("br", null),
+				React.createElement(
+					"button",
+					{ className: "btn btn-forest-2" },
+					"Upload Your Portfolio"
+				),
+				React.createElement("br", null),
+				React.createElement("br", null),
+				React.createElement(
+					"label",
+					null,
+					"Select your skill level"
+				),
+				React.createElement(
+					"div",
+					{ className: "text-left set-width" },
+					React.createElement("input", { type: "radio", name: "skill" }),
+					" ",
+					React.createElement(
+						"label",
+						null,
+						"Professional"
+					),
+					React.createElement("br", null),
+					React.createElement("input", { type: "radio", name: "skill" }),
+					" ",
+					React.createElement(
+						"label",
+						null,
+						"Student"
+					)
+				),
+				React.createElement("br", null),
+				React.createElement(
+					"button",
+					{ className: "btn btn-forest-2 forest-mod", type: "submit" },
+					"Submit"
+				)
+			)
 		);
 	}
 });
@@ -32536,7 +32620,77 @@ module.exports = React.createClass({
 		return React.createElement(
 			"div",
 			null,
-			"Im for non-profits!"
+			React.createElement("br", null),
+			React.createElement("br", null),
+			React.createElement(
+				"form",
+				null,
+				React.createElement(
+					"label",
+					null,
+					"What kind of project are you offering?"
+				),
+				React.createElement("br", null),
+				React.createElement(
+					"select",
+					null,
+					React.createElement(
+						"option",
+						{ value: "" },
+						"Nothing Selected"
+					),
+					React.createElement(
+						"option",
+						{ value: "1" },
+						"Web"
+					),
+					React.createElement(
+						"option",
+						{ value: "2" },
+						"Paper"
+					),
+					React.createElement(
+						"option",
+						{ value: "3" },
+						"A Cool One"
+					),
+					React.createElement(
+						"option",
+						{ value: "4" },
+						"An Awesome One"
+					),
+					React.createElement(
+						"option",
+						{ value: "5" },
+						"I kinda suck"
+					)
+				),
+				React.createElement("br", null),
+				React.createElement("br", null),
+				React.createElement(
+					"label",
+					null,
+					"Enter your mission statement here"
+				),
+				React.createElement("br", null),
+				React.createElement("textarea", null),
+				React.createElement("br", null),
+				React.createElement("br", null),
+				React.createElement(
+					"label",
+					null,
+					"Enter a description of your project here"
+				),
+				React.createElement("br", null),
+				React.createElement("textarea", null),
+				React.createElement("br", null),
+				React.createElement("br", null),
+				React.createElement(
+					"button",
+					{ className: "btn btn-forest-2 forest-mod", type: "submit" },
+					"Submit"
+				)
+			)
 		);
 	}
 });
@@ -32735,40 +32889,46 @@ module.exports = React.createClass({
 					)
 				),
 				React.createElement(
-					"div",
-					{ className: "take-margin container" },
-					React.createElement("div", { className: "col-sm-3" }),
+					"form",
+					{ onSubmit: this.goToChoice },
+					React.createElement("input", { className: "input-fantasy", type: "text", placeholder: "Name" }),
+					React.createElement("br", null),
+					React.createElement("br", null),
+					React.createElement("input", { className: "input-fantasy", type: "text", placeholder: "Email" }),
+					React.createElement("br", null),
+					React.createElement("br", null),
+					React.createElement("input", { className: "input-fantasy", type: "text", placeholder: "Username" }),
+					React.createElement("br", null),
+					React.createElement("br", null),
+					React.createElement("input", { className: "input-fantasy", type: "password", placeholder: "Password" }),
+					React.createElement("br", null),
+					React.createElement("br", null),
+					React.createElement("input", { className: "input-fantasy", type: "text", placeholder: "Confirm Password" }),
+					React.createElement("br", null),
+					React.createElement("br", null),
 					React.createElement(
-						"div",
-						{ className: "text-center col-sm-6" },
-						React.createElement("br", null),
-						React.createElement("br", null),
-						React.createElement(
-							"form",
-							{ onSubmit: this.goToChoice },
-							React.createElement("input", { className: "input-fantasy", type: "text", placeholder: "Name" }),
-							React.createElement("br", null),
-							React.createElement("br", null),
-							React.createElement("input", { className: "input-fantasy", type: "text", placeholder: "Email" }),
-							React.createElement("br", null),
-							React.createElement("br", null),
-							React.createElement("input", { className: "input-fantasy", type: "text", placeholder: "Username" }),
-							React.createElement("br", null),
-							React.createElement("br", null),
-							React.createElement("input", { className: "input-fantasy", type: "password", placeholder: "Password" }),
-							React.createElement("br", null),
-							React.createElement("br", null),
-							React.createElement("input", { className: "input-fantasy", type: "text", placeholder: "Confirm Password" }),
-							React.createElement("br", null),
-							React.createElement("br", null),
-							React.createElement(
-								"button",
-								{ className: "center-block btn-forest-2 btn" },
-								"Sign Up"
-							)
-						)
+						"label",
+						null,
+						"Applicant"
 					),
-					React.createElement("div", { className: "col-sm-3" })
+					React.createElement("input", { name: "user-type", type: "radio" }),
+					React.createElement(
+						"label",
+						null,
+						"Non-Profit"
+					),
+					React.createElement("input", { name: "user-type", type: "radio" }),
+					React.createElement(
+						"label",
+						null,
+						"Organization"
+					),
+					React.createElement("input", { name: "user-type", type: "radio" }),
+					React.createElement(
+						"button",
+						{ className: "center-block btn-forest-2 btn" },
+						"Sign Up"
+					)
 				)
 			)
 		);

@@ -1,6 +1,13 @@
-.blue-block {
-	height: 200px;
-	background: blue;
+* {
+	font-family: fantasy;
+	font-size: 20px;
+}
+label {
+	margin-right: 5px;
+	margin-left: 10px;
+}
+body {
+	background: #8F9E6F;
 }
 .add-margin {
 	margin-right: auto;
@@ -26,7 +33,7 @@
 	background: #4F364C;
 }
 .half-height-2 {
-	height: 480px;
+	height: 100%;
 	background: #8F9E6F;
 	border-top: 5px solid #B1CF72;
 }
@@ -47,8 +54,12 @@
 	width: 300px;
 	font-size: 17px;
 	margin-top: 20px;
+	margin-bottom: 40px;
 	background: #5E405F;
 	color: white;
+}
+.forest-mod {
+	width: 150px;
 }
 .input-fantasy {
 	height: 35px;
@@ -78,4 +89,18 @@ a {
 .set-dimensions {
 	height:300px;
 	padding: 30px;
+}
+.set-width {
+	width: 155px;
+	margin-left: auto;
+	margin-right: auto;
+}
+select {
+  border: 1px solid #111;
+  background: #4F364C;
+  padding: 5px 35px 5px 5px;
+  font-family: fantasy;
+  border: 1px solid #ccc;
+  height: 34px;
+  color: white;
 }
