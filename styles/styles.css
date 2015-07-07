@@ -73,6 +73,10 @@ body {
 a {
 	color: white;
 }
+.errors {
+	margin-top: 10px;
+	color: red;
+}
 .med-font {
 	font-size: 18px;
 }

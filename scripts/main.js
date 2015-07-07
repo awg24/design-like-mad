@@ -10,14 +10,15 @@ var ForNonProfit = require("./components/ForNonProfitComponent");
 var ForOrg = require("./components/ForOrgComponent");
 
 var containerEl = document.getElementById("container");
-
+var UserModel = require("./models/UserModel");
+var user = new UserModel(); 
 
 var App = Backbone.Router.extend({
 	routes: {
 		"": "splash",
 		"login": "login",
 		"signUp": "signUp",
-		"profile":"profile"
+		"profile/:type":"profile"
 	},
 	splash: function(){
 		React.render(<SplashPage routing={this} />, containerEl);
@@ -26,10 +27,10 @@ var App = Backbone.Router.extend({
 		React.render(<LoginPortal routing={this} />, containerEl);
 	},
 	signUp: function(){
-		React.render(<SignUpPortal routing={this} />, containerEl);
+		React.render(<SignUpPortal routing={this} user={user} />, containerEl);
 	},
-	profile: function(){
-		React.render(<ProfilePage routing={this} />, containerEl);
+	profile: function(type){
+		React.render(<ProfilePage userType={type} routing={this} />, containerEl);
 	},
 	applicant: function(){
 		React.render(<ForApplicant routing={this} />, profileEl);

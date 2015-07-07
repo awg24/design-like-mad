@@ -6,8 +6,20 @@ var profileEl = document.getElementById("profile-things");
 
 module.exports = React.createClass({
 	getInitialState: function(){
+		var shouldDisplay;
+		switch(this.props.userType){
+			case "non-profit":
+				shouldDisplay = <ForNonProfit/>;
+				break;
+			case "applicant":
+				shouldDisplay = <ForApplicant/>;
+				break;
+			case "organization":
+				shouldDisplay = <ForOrg/>;
+				break;
+		}
 		return {
-			displayPage: <ForOrg/>
+			displayPage: shouldDisplay
 		};
 	},
 	render: function(){

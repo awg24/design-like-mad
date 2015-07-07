@@ -5,7 +5,7 @@ module.exports = React.createClass({
 		return (
 			<div>
 				<div className="container-fluid half-height text-center">
-					Desgin Like Mad
+					Design Like Mad
 				</div>
 				<div className="container-fluid half-height-2">
 					<div className="center-block">
