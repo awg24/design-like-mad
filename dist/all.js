@@ -33692,7 +33692,7 @@ module.exports = React.createClass({
 			React.createElement(
 				"div",
 				{ className: "container-fluid half-height text-center" },
-				"Desgin Like Mad"
+				"Design Like Mad"
 			),
 			React.createElement(
 				"div",
@@ -33739,7 +33739,6 @@ module.exports = React.createClass({
 	},
 	goToChoice: function goToChoice(event) {
 		event.preventDefault();
-		console.log("i work!");
 		this.props.routing.navigate("profile", { trigger: true });
 	}
 });
@@ -33780,7 +33779,7 @@ module.exports = React.createClass({
 			React.createElement(
 				"div",
 				{ className: "nav-bar text-center" },
-				"Desgin Like Mad"
+				"Design Like Mad"
 			),
 			React.createElement(
 				"div",
@@ -33862,6 +33861,11 @@ module.exports = React.createClass({
 				"div",
 				{ className: "text-center container-fluid half-height-2" },
 				React.createElement(
+					"span",
+					{ className: "errors" },
+					this.state.errors.server
+				),
+				React.createElement(
 					"label",
 					{ className: "go-white" },
 					"Already a member? ",
@@ -33908,6 +33912,11 @@ module.exports = React.createClass({
 					React.createElement("br", null),
 					React.createElement("input", { ref: "confirmPassword", className: "input-fantasy", type: "password", placeholder: "Confirm Password" }),
 					React.createElement("br", null),
+					React.createElement(
+						"span",
+						{ className: "errors" },
+						this.state.errors.confirm
+					),
 					React.createElement("br", null),
 					React.createElement(
 						"label",
@@ -33933,7 +33942,6 @@ module.exports = React.createClass({
 						{ className: "errors" },
 						this.state.errors.userType
 					),
-					React.createElement("br", null),
 					React.createElement(
 						"button",
 						{ type: "submit", className: "center-block btn-forest-2 btn" },
@@ -33962,28 +33970,44 @@ module.exports = React.createClass({
 		newUser.set("password", newPassword);
 		newUser.set("userType", userType);
 
+		var errors = {};
+
 		if (newUser.isValid()) {
-			newUser.save(null, {
-				error: function error(data) {
-					console.log(data);
-				},
-				success: function success(data) {
-					newUser.login({
-						username: newUsername,
-						password: newPassword
-					}, {
-						success: function success(userModel) {
-							console.log("user was logged in");
-							that.props.routing.navigate("profile/" + userType, { trigger: true });
-						},
-						error: function error(userModel, response) {
-							console.log("user was not logged in", response.responseJSON);
+			if (confirmPass === newPassword) {
+				newUser.save(null, {
+					error: function error(data, err) {
+						switch (err.responseJSON.code) {
+							case 202:
+								errors.username = err.responseJSON.error;
+								break;
+							case 203:
+								errors.email = err.responseJSON.error;;
+								break;
 						}
-					});
-				}
-			});
+						that.setState({ errors: errors });
+					},
+					success: function success(data) {
+						newUser.login({
+							username: newUsername,
+							password: newPassword
+						}, {
+							success: function success(userModel) {
+								console.log("user was logged in");
+								that.props.routing.navigate("profile/" + userType, { trigger: true });
+							},
+							error: function error(userModel, response) {
+								console.log("user was not logged in", response.responseJSON);
+								errors.server = "There was a problem connecting with the server, please try logging in again.";
+								that.setState({ errors: errors });
+							}
+						});
+					}
+				});
+			} else {
+				errors.confirm = "Passwords do not match!";
+				this.setState({ errors: errors });
+			}
 		} else {
-			console.log(newUser.validationError);
 			this.setState({ errors: newUser.validationError });
 		}
 	}

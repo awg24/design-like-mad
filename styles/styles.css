@@ -62,6 +62,7 @@ body {
 	width: 150px;
 }
 .input-fantasy {
+	margin-bottom: 3px;
 	height: 35px;
 	width: 300px;
 }
@@ -74,8 +75,8 @@ a {
 	color: white;
 }
 .errors {
-	margin-top: 10px;
 	color: red;
+	font-weight: bold;
 }
 .med-font {
 	font-size: 18px;

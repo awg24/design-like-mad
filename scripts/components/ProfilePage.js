@@ -25,7 +25,7 @@ module.exports = React.createClass({
 	render: function(){
 		return (
 			<div>
-				<div className="nav-bar text-center">Desgin Like Mad</div>
+				<div className="nav-bar text-center">Design Like Mad</div>
 				<div className="text-center container-fluid half-height-2-mod">
 				<ul className="nav nav-tabs">
 					<li className="go-white med-font" role="presentation"><a onClick={this.showApplicant}>Applicants</a></li>

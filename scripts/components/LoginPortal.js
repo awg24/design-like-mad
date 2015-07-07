@@ -4,7 +4,7 @@ module.exports = React.createClass({
 	render: function(){
 		return (
 			<div>
-				<div className="container-fluid half-height text-center">Desgin Like Mad</div>
+				<div className="container-fluid half-height text-center">Design Like Mad</div>
 				<div className="text-center container-fluid half-height-2">
 					<label className="go-white">Not a member? <a href="#signUp">Sign up here!</a></label>
 					<div className="take-margin container">
@@ -25,7 +25,6 @@ module.exports = React.createClass({
 	},
 	goToChoice: function(event){
 		event.preventDefault();
-		console.log("i work!");
 		this.props.routing.navigate("profile",{trigger: true});
 	}
 });
