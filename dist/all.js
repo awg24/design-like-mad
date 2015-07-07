@@ -33773,6 +33773,7 @@ module.exports = React.createClass({
 		};
 	},
 	render: function render() {
+		console.log(this.props.loggedInUser);
 		return React.createElement(
 			"div",
 			null,
@@ -34096,7 +34097,7 @@ var App = Backbone.Router.extend({
 		React.render(React.createElement(SignUpPortal, { routing: this, user: user }), containerEl);
 	},
 	profile: function profile(type) {
-		React.render(React.createElement(ProfilePage, { userType: type, routing: this }), containerEl);
+		React.render(React.createElement(ProfilePage, { userType: type, loggedInUser: user, routing: this }), containerEl);
 	}
 });
 

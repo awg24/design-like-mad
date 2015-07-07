@@ -30,7 +30,7 @@ var App = Backbone.Router.extend({
 		React.render(<SignUpPortal routing={this} user={user} />, containerEl);
 	},
 	profile: function(type){
-		React.render(<ProfilePage userType={type} routing={this} />, containerEl);
+		React.render(<ProfilePage userType={type} loggedInUser={user} routing={this} />, containerEl);
 	}
 });
 

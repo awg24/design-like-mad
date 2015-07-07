@@ -23,6 +23,7 @@ module.exports = React.createClass({
 		};
 	},
 	render: function(){
+		console.log(this.props.loggedInUser);
 		return (
 			<div>
 				<div className="nav-bar text-center">Design Like Mad</div>
