@@ -32,8 +32,10 @@ module.exports = React.createClass({
 					<li className="go-white med-font" role="presentation"><a onClick={this.showApplicant}>Applicants</a></li>
 					<li className="go-white med-font" role="presentation"><a onClick={this.showNonProfit}>Non-Profits</a></li>
 					<li className="go-white med-font" role="presentation"><a onClick={this.showOrg}>Organizations</a></li>
+					<button onClick={this.logoutUser} className="pull-right btn btn-forest-2 forest-mod">Logout</button>
 				</ul>
-				<section id="profile-things">{this.state.displayPage}</section>
+				<section id="profile-things">
+				{this.state.displayPage}</section>
 				</div>
 			</div>
 		);
@@ -46,5 +48,17 @@ module.exports = React.createClass({
 	},
 	showOrg: function(){
 		this.setState({displayPage: <ForOrg/>});
+	},
+	logoutUser: function(){
+		var that = this;
+		this.props.loggedInUser.logout({
+			success: function(userModel) {
+				console.log('user was logged out');
+				that.props.routing.navigate("", {trigger:true});
+			},
+			error: function(userModel, response) {
+				console.log('problem logging out the user', response.responseJSON);
+			}
+		});
 	}
 });

@@ -53,7 +53,7 @@ body {
 	height: 35px;
 	width: 300px;
 	font-size: 17px;
-	margin-top: 20px;
+	margin-top: 5px;
 	margin-bottom: 40px;
 	background: #5E405F;
 	color: white;
@@ -86,6 +86,7 @@ a {
 }
 .nav-tabs {
 	color: #4F364C;
+	height: 50px;
 }
 .active {
 	color: #4F364C;

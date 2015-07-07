@@ -3516,9 +3516,6 @@ module.exports = function(parseSettings) {
 		},
 		logout: function(options) {
 			var self = this;
-			sessionToken = null;
-			this.clear();
-			window.localStorage.removeItem('sessionToken');
 			options = options || {};
 			Backbone.$.ajax({
 				//data
@@ -3538,6 +3535,9 @@ module.exports = function(parseSettings) {
 				self.set(data);
 				if(options.success) {
 					options.success(self);
+					sessionToken = null;
+					self.clear();
+					window.localStorage.removeItem('sessionToken');
 				}
 			})
 			.error(function(response) {
@@ -33814,6 +33814,11 @@ module.exports = React.createClass({
 							{ onClick: this.showOrg },
 							"Organizations"
 						)
+					),
+					React.createElement(
+						"button",
+						{ onClick: this.logoutUser, className: "pull-right btn btn-forest-2 forest-mod" },
+						"Logout"
 					)
 				),
 				React.createElement(
@@ -33832,6 +33837,18 @@ module.exports = React.createClass({
 	},
 	showOrg: function showOrg() {
 		this.setState({ displayPage: React.createElement(ForOrg, null) });
+	},
+	logoutUser: function logoutUser() {
+		var that = this;
+		this.props.loggedInUser.logout({
+			success: function success(userModel) {
+				console.log("user was logged out");
+				that.props.routing.navigate("", { trigger: true });
+			},
+			error: function error(userModel, response) {
+				console.log("problem logging out the user", response.responseJSON);
+			}
+		});
 	}
 });
 
