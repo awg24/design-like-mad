@@ -50,13 +50,13 @@ module.exports = React.createClass({
 		);
 	},
 	showApplicant: function(){
-		this.setState({displayPage: <ForApplicant/>});
+		this.setState({displayPage: <ForApplicant user={this.props.loggedInUser}/>});
 	},
 	showNonProfit: function(){
-		this.setState({displayPage: <ForNonProfit/>});
+		this.setState({displayPage: <ForNonProfit user={this.props.loggedInUser}/>});
 	},
 	showOrg: function(){
-		this.setState({displayPage: <ForOrg/>});
+		this.setState({displayPage: <ForOrg user={this.props.loggedInUser}/>});
 	},
 	logoutUser: function(){
 		var that = this;

@@ -33772,10 +33772,11 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../models/NonProfitModel":170,"react":160}],164:[function(require,module,exports){
+},{"../models/NonProfitModel":171,"react":160}],164:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
+var PDF = require("./PDFViewer");
 
 module.exports = React.createClass({
 	displayName: "exports",
@@ -33784,12 +33785,13 @@ module.exports = React.createClass({
 		return React.createElement(
 			"div",
 			null,
-			"Im for org!"
+			"Im for org!",
+			React.createElement(PDF, { url: "/me.pdf" })
 		);
 	}
 });
 
-},{"react":160}],165:[function(require,module,exports){
+},{"./PDFViewer":166,"react":160}],165:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -33881,6 +33883,49 @@ module.exports = React.createClass({
 });
 
 },{"react":160}],166:[function(require,module,exports){
+"use strict";
+
+var React = require("react");
+
+module.exports = React.createClass({
+	displayName: "exports",
+
+	render: function render() {
+		return React.createElement("canvas", { ref: "pdfView" });
+	},
+	componentDidMount: function componentDidMount() {
+		console.log(PDFJS);
+		var that = this;
+		PDFJS.getDocument(this.props.url).then(function getPdfHelloWorld(pdf) {
+			//
+			// Fetch the first page
+			//
+			pdf.getPage(1).then(function getPageHelloWorld(page) {
+				var scale = 1.5;
+				var viewport = page.getViewport(scale);
+
+				//
+				// Prepare canvas using PDF page dimensions
+				//
+				var canvas = that.refs.pdfView.getDOMNode();
+				var context = canvas.getContext("2d");
+				canvas.height = viewport.height;
+				canvas.width = viewport.width;
+
+				//
+				// Render PDF page into canvas context
+				//
+				var renderContext = {
+					canvasContext: context,
+					viewport: viewport
+				};
+				page.render(renderContext);
+			});
+		});
+	}
+});
+
+},{"react":160}],167:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -33976,13 +34021,13 @@ module.exports = React.createClass({
 		);
 	},
 	showApplicant: function showApplicant() {
-		this.setState({ displayPage: React.createElement(ForApplicant, null) });
+		this.setState({ displayPage: React.createElement(ForApplicant, { user: this.props.loggedInUser }) });
 	},
 	showNonProfit: function showNonProfit() {
-		this.setState({ displayPage: React.createElement(ForNonProfit, null) });
+		this.setState({ displayPage: React.createElement(ForNonProfit, { user: this.props.loggedInUser }) });
 	},
 	showOrg: function showOrg() {
-		this.setState({ displayPage: React.createElement(ForOrg, null) });
+		this.setState({ displayPage: React.createElement(ForOrg, { user: this.props.loggedInUser }) });
 	},
 	logoutUser: function logoutUser() {
 		var that = this;
@@ -33998,7 +34043,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"./ForApplicantComponent":162,"./ForNonProfitComponent":163,"./ForOrgComponent":164,"react":160}],167:[function(require,module,exports){
+},{"./ForApplicantComponent":162,"./ForNonProfitComponent":163,"./ForOrgComponent":164,"react":160}],168:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34177,7 +34222,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"jquery":5,"react":160}],168:[function(require,module,exports){
+},{"jquery":5,"react":160}],169:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34225,7 +34270,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"react":160}],169:[function(require,module,exports){
+},{"react":160}],170:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34276,7 +34321,7 @@ var App = Backbone.Router.extend({
 var myRoutes = new App();
 Backbone.history.start();
 
-},{"./components/ForApplicantComponent":162,"./components/ForNonProfitComponent":163,"./components/ForOrgComponent":164,"./components/LoginPortal":165,"./components/ProfilePage":166,"./components/SignUpPortal":167,"./components/SplashPage":168,"./models/UserModel":171,"backbone":1,"react":160}],170:[function(require,module,exports){
+},{"./components/ForApplicantComponent":162,"./components/ForNonProfitComponent":163,"./components/ForOrgComponent":164,"./components/LoginPortal":165,"./components/ProfilePage":167,"./components/SignUpPortal":168,"./components/SplashPage":169,"./models/UserModel":172,"backbone":1,"react":160}],171:[function(require,module,exports){
 'use strict';
 
 var Backbone = require('backparse')({
@@ -34333,7 +34378,7 @@ module.exports = Backbone.Model.extend({
 	}
 });
 
-},{"backbone/node_modules/underscore":2,"backparse":3,"validator":161}],171:[function(require,module,exports){
+},{"backbone/node_modules/underscore":2,"backparse":3,"validator":161}],172:[function(require,module,exports){
 'use strict';
 
 var Backbone = require('backparse')({
@@ -34390,7 +34435,7 @@ module.exports = Backbone.Model.extend({
 	isUser: true
 });
 
-},{"backbone/node_modules/underscore":2,"backparse":3,"validator":161}]},{},[169])
+},{"backbone/node_modules/underscore":2,"backparse":3,"validator":161}]},{},[170])
 
 
 //# sourceMappingURL=all.js.map
