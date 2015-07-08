@@ -1,6 +1,11 @@
 var React = require("react");
 
 module.exports = React.createClass({
+	getInitialState: function(){
+		return {
+			errors: {}
+		};
+	},
 	render: function(){
 		return (
 			<div>
@@ -10,12 +15,13 @@ module.exports = React.createClass({
 					<div className="take-margin container">
 						<div className="col-sm-3"></div>
 						<div className="text-center col-sm-6"><br/><br/>
-							<form onSubmit={this.goToChoice}>
-								<input className="input-fantasy" type="text" placeholder="Username" /><br/><br/>
-								<input className="input-fantasy" type="password" placeholder="Password" />
+							<form onSubmit={this.validateUser}>
+								<input className="input-fantasy" ref="username" type="text" placeholder="Username" /><br/><br/>
+								<input className="input-fantasy" ref="password" type="password" placeholder="Password" />
 								<br/><br/>
 								<button className="center-block btn-forest-2 btn">Login</button>
 							</form>
+							<span className="errors">{this.state.errors.invalid}</span>
 						</div>
 						<div className="col-sm-3"></div>
 					</div>
@@ -23,8 +29,24 @@ module.exports = React.createClass({
 			</div>
 		);
 	},
-	goToChoice: function(event){
+	validateUser: function(event){
 		event.preventDefault();
-		this.props.routing.navigate("profile",{trigger: true});
+		var that = this;
+		var errors = {};
+		this.props.loggingIn.login({
+				username: this.refs.username.getDOMNode().value,
+				password: this.refs.password.getDOMNode().value
+			},{
+				success:function(data){
+					console.log(data);
+					that.props.routing.navigate("profile/"+data.attributes.userType, {trigger: true});
+				},
+				error: function(data, res){
+					console.log(res);
+					errors.invalid = "Username or password are incorrect";
+					that.setState({errors: errors});
+				}
+			}
+		);
 	}
 });

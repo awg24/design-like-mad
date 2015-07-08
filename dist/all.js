@@ -33577,78 +33577,155 @@ module.exports = React.createClass({
 "use strict";
 
 var React = require("react");
+var NonProfitModel = require("../models/NonProfitModel");
 
 module.exports = React.createClass({
 	displayName: "exports",
 
+	getInitialState: function getInitialState() {
+		return {
+			errors: {},
+			successfullySubmitted: false
+		};
+	},
 	render: function render() {
+		var successMessage;
+		if (this.state.successfullySubmitted) {
+			successMessage = React.createElement(
+				"span",
+				{ className: "success" },
+				"Submitted!"
+			);
+		}
 		return React.createElement(
 			"div",
 			null,
 			React.createElement("br", null),
-			React.createElement("br", null),
 			React.createElement(
 				"form",
-				null,
+				{ onSubmit: this.saveNonProfitData },
 				React.createElement(
-					"label",
-					null,
-					"What kind of project are you offering?"
-				),
-				React.createElement("br", null),
-				React.createElement(
-					"select",
-					null,
+					"div",
+					{ className: "container" },
 					React.createElement(
-						"option",
-						{ value: "" },
-						"Nothing Selected"
+						"div",
+						{ className: "col-sm-6" },
+						React.createElement(
+							"label",
+							null,
+							"Name of Non-Profit"
+						),
+						React.createElement("br", null),
+						React.createElement("input", { ref: "nonProfitName", className: "input-fantasy", type: "text", placeholder: "name" }),
+						React.createElement("br", null),
+						React.createElement(
+							"span",
+							{ className: "errors" },
+							this.state.errors.name
+						),
+						React.createElement("br", null),
+						React.createElement(
+							"label",
+							null,
+							"Phone number to reach Non-Profit"
+						),
+						React.createElement("br", null),
+						React.createElement("input", { ref: "phone", className: "input-fantasy", type: "tel", placeholder: "555-5555" }),
+						React.createElement("br", null),
+						React.createElement(
+							"span",
+							{ className: "errors" },
+							this.state.errors.phoneNum
+						),
+						React.createElement("br", null),
+						React.createElement(
+							"label",
+							null,
+							"Site of Non-Profit"
+						),
+						React.createElement("br", null),
+						React.createElement("input", { ref: "nonProfitSite", className: "input-fantasy", type: "text", placeholder: "website (optional)" })
 					),
 					React.createElement(
-						"option",
-						{ value: "1" },
-						"Web"
-					),
-					React.createElement(
-						"option",
-						{ value: "2" },
-						"Paper"
-					),
-					React.createElement(
-						"option",
-						{ value: "3" },
-						"A Cool One"
-					),
-					React.createElement(
-						"option",
-						{ value: "4" },
-						"An Awesome One"
-					),
-					React.createElement(
-						"option",
-						{ value: "5" },
-						"I kinda suck"
+						"div",
+						{ className: "col-sm-6" },
+						React.createElement(
+							"label",
+							null,
+							"What kind of project are you offering?"
+						),
+						React.createElement("br", null),
+						React.createElement(
+							"select",
+							{ ref: "designerType" },
+							React.createElement(
+								"option",
+								{ value: "" },
+								"Nothing Selected"
+							),
+							React.createElement(
+								"option",
+								{ value: "web" },
+								"Web"
+							),
+							React.createElement(
+								"option",
+								{ value: "paper" },
+								"Paper"
+							),
+							React.createElement(
+								"option",
+								{ value: "a cool one" },
+								"A Cool One"
+							),
+							React.createElement(
+								"option",
+								{ value: "an awesome one" },
+								"An Awesome One"
+							),
+							React.createElement(
+								"option",
+								{ value: "i kinda suck" },
+								"I kinda suck"
+							)
+						),
+						React.createElement("br", null),
+						React.createElement(
+							"span",
+							{ className: "errors" },
+							this.state.errors.designType
+						),
+						React.createElement("br", null),
+						React.createElement(
+							"label",
+							null,
+							"Enter your mission statement here"
+						),
+						React.createElement("br", null),
+						React.createElement("textarea", { ref: "missionStatement" }),
+						React.createElement("br", null),
+						React.createElement(
+							"span",
+							{ className: "errors" },
+							this.state.errors.missionStatement
+						),
+						React.createElement("br", null),
+						React.createElement(
+							"label",
+							null,
+							"Enter a description of your project here"
+						),
+						React.createElement("br", null),
+						React.createElement("textarea", { ref: "description" }),
+						React.createElement("br", null),
+						React.createElement(
+							"span",
+							{ className: "errors" },
+							this.state.errors.description
+						)
 					)
 				),
-				React.createElement("br", null),
-				React.createElement("br", null),
-				React.createElement(
-					"label",
-					null,
-					"Enter your mission statement here"
-				),
-				React.createElement("br", null),
-				React.createElement("textarea", null),
-				React.createElement("br", null),
-				React.createElement("br", null),
-				React.createElement(
-					"label",
-					null,
-					"Enter a description of your project here"
-				),
-				React.createElement("br", null),
-				React.createElement("textarea", null),
-				React.createElement("br", null),
+				successMessage,
 				React.createElement("br", null),
 				React.createElement(
 					"button",
@@ -33657,10 +33734,45 @@ module.exports = React.createClass({
 				)
 			)
 		);
+	},
+	saveNonProfitData: function saveNonProfitData(event) {
+		event.preventDefault();
+		var that = this;
+		var nonProfitName = this.refs.nonProfitName.getDOMNode().value;
+		var email = this.props.user.attributes.email;
+		var phone = this.refs.phone.getDOMNode().value;
+		var site = this.refs.nonProfitSite.getDOMNode().value;
+		var designType = this.refs.designerType.getDOMNode().value;
+		var missionStatement = this.refs.missionStatement.getDOMNode().value;
+		var description = this.refs.description.getDOMNode().value;
+
+		console.log(this.props.user.attributes.objectId);
+
+		var nonProfit = new NonProfitModel({
+			name: nonProfitName,
+			submittedby: this.props.user.attributes.objectId,
+			designType: designType,
+			phoneNum: phone,
+			email: email,
+			missionStatement: missionStatement,
+			description: description,
+			site: site
+		});
+
+		if (nonProfit.isValid()) {
+			nonProfit.save(null, {
+				success: function success() {
+					console.log("i worked,yo!");
+					that.setState({ successfullySubmitted: true });
+				}
+			});
+		} else {
+			this.setState({ errors: nonProfit.validationError });
+		}
 	}
 });
 
-},{"react":160}],164:[function(require,module,exports){
+},{"../models/NonProfitModel":170,"react":160}],164:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -33685,6 +33797,11 @@ var React = require("react");
 module.exports = React.createClass({
 	displayName: "exports",
 
+	getInitialState: function getInitialState() {
+		return {
+			errors: {}
+		};
+	},
 	render: function render() {
 		return React.createElement(
 			"div",
@@ -33718,11 +33835,11 @@ module.exports = React.createClass({
 						React.createElement("br", null),
 						React.createElement(
 							"form",
-							{ onSubmit: this.goToChoice },
-							React.createElement("input", { className: "input-fantasy", type: "text", placeholder: "Username" }),
+							{ onSubmit: this.validateUser },
+							React.createElement("input", { className: "input-fantasy", ref: "username", type: "text", placeholder: "Username" }),
 							React.createElement("br", null),
 							React.createElement("br", null),
-							React.createElement("input", { className: "input-fantasy", type: "password", placeholder: "Password" }),
+							React.createElement("input", { className: "input-fantasy", ref: "password", type: "password", placeholder: "Password" }),
 							React.createElement("br", null),
 							React.createElement("br", null),
 							React.createElement(
@@ -33730,6 +33847,11 @@ module.exports = React.createClass({
 								{ className: "center-block btn-forest-2 btn" },
 								"Login"
 							)
+						),
+						React.createElement(
+							"span",
+							{ className: "errors" },
+							this.state.errors.invalid
 						)
 					),
 					React.createElement("div", { className: "col-sm-3" })
@@ -33737,9 +33859,24 @@ module.exports = React.createClass({
 			)
 		);
 	},
-	goToChoice: function goToChoice(event) {
+	validateUser: function validateUser(event) {
 		event.preventDefault();
-		this.props.routing.navigate("profile", { trigger: true });
+		var that = this;
+		var errors = {};
+		this.props.loggingIn.login({
+			username: this.refs.username.getDOMNode().value,
+			password: this.refs.password.getDOMNode().value
+		}, {
+			success: function success(data) {
+				console.log(data);
+				that.props.routing.navigate("profile/" + data.attributes.userType, { trigger: true });
+			},
+			error: function error(data, res) {
+				console.log(res);
+				errors.invalid = "Username or password are incorrect";
+				that.setState({ errors: errors });
+			}
+		});
 	}
 });
 
@@ -33756,16 +33893,25 @@ module.exports = React.createClass({
 	displayName: "exports",
 
 	getInitialState: function getInitialState() {
+		var that = this;
+		this.props.loggedInUser.me({
+			success: function success(userModel) {
+				console.log("current user session is active");
+			},
+			error: function error(userModel, response) {
+				that.props.routing.navigate("", { trigger: true });
+			}
+		});
 		var shouldDisplay;
 		switch (this.props.userType) {
 			case "non-profit":
-				shouldDisplay = React.createElement(ForNonProfit, null);
+				shouldDisplay = React.createElement(ForNonProfit, { user: this.props.loggedInUser });
 				break;
 			case "applicant":
-				shouldDisplay = React.createElement(ForApplicant, null);
+				shouldDisplay = React.createElement(ForApplicant, { user: this.props.loggedInUser });
 				break;
 			case "organization":
-				shouldDisplay = React.createElement(ForOrg, null);
+				shouldDisplay = React.createElement(ForOrg, { user: this.props.loggedInUser });
 				break;
 		}
 		return {
@@ -34108,20 +34254,86 @@ var App = Backbone.Router.extend({
 		React.render(React.createElement(SplashPage, { routing: this }), containerEl);
 	},
 	login: function login() {
-		React.render(React.createElement(LoginPortal, { routing: this }), containerEl);
+		React.render(React.createElement(LoginPortal, { loggingIn: user, routing: this }), containerEl);
 	},
 	signUp: function signUp() {
 		React.render(React.createElement(SignUpPortal, { routing: this, user: user }), containerEl);
 	},
 	profile: function profile(type) {
-		React.render(React.createElement(ProfilePage, { userType: type, loggedInUser: user, routing: this }), containerEl);
+		var that = this;
+		user.me({
+			error: function error(user, res) {
+				console.log(res);
+				that.navigate("", { trigger: true });
+			},
+			success: function success(model) {
+				React.render(React.createElement(ProfilePage, { userType: type, loggedInUser: user, routing: that }), containerEl);
+			}
+		});
 	}
 });
 
 var myRoutes = new App();
 Backbone.history.start();
 
-},{"./components/ForApplicantComponent":162,"./components/ForNonProfitComponent":163,"./components/ForOrgComponent":164,"./components/LoginPortal":165,"./components/ProfilePage":166,"./components/SignUpPortal":167,"./components/SplashPage":168,"./models/UserModel":170,"backbone":1,"react":160}],170:[function(require,module,exports){
+},{"./components/ForApplicantComponent":162,"./components/ForNonProfitComponent":163,"./components/ForOrgComponent":164,"./components/LoginPortal":165,"./components/ProfilePage":166,"./components/SignUpPortal":167,"./components/SplashPage":168,"./models/UserModel":171,"backbone":1,"react":160}],170:[function(require,module,exports){
+'use strict';
+
+var Backbone = require('backparse')({
+	appId: 'S6Y7ni0haUcubEj98BcjWPl3lDPaYlVewgl53Prj',
+	apiKey: 'E6IQ4vAZa9rfubgL3lpRvm5RXPAmcRm3rAhiWC69',
+	apiVersion: 1
+});
+var validator = require('validator');
+var _ = require('backbone/node_modules/underscore');
+
+module.exports = Backbone.Model.extend({
+	defaults: {
+		name: null,
+		submittedby: null,
+		designType: null,
+		rank: null,
+		phoneNum: null,
+		email: null,
+		missionStatement: null,
+		description: null,
+		site: null
+	},
+	idAtrribute: 'objectId',
+	parseClassName: 'NonProfit',
+	validate: function validate(attr) {
+		var errors = {};
+
+		if (!attr.name) {
+			errors.name = 'Field must not be blank!';
+		}
+		if (!attr.email) {
+			errors.email = 'Field must not be blank!';
+		}
+		if (!attr.designType) {
+			errors.designType = 'Field must not be blank!';
+		}
+		if (!attr.phoneNum) {
+			errors.phoneNum = 'Field must not be blank!';
+		} else if (!validator.isNumeric(attr.phoneNum) || attr.phoneNum.length !== 10) {
+			errors.phoneNum = 'Please type just numbers including area code';
+		}
+		if (!attr.missionStatement) {
+			errors.missionStatement = 'Field must not be blank!';
+		}
+		if (!attr.description) {
+			errors.description = 'Field must not be blank!';
+		}
+
+		if (_.isEmpty(errors)) {
+			return false;
+		} else {
+			return errors;
+		}
+	}
+});
+
+},{"backbone/node_modules/underscore":2,"backparse":3,"validator":161}],171:[function(require,module,exports){
 'use strict';
 
 var Backbone = require('backparse')({

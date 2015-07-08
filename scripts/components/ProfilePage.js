@@ -6,16 +6,25 @@ var profileEl = document.getElementById("profile-things");
 
 module.exports = React.createClass({
 	getInitialState: function(){
+		var that = this;
+		this.props.loggedInUser.me({
+			success: function(userModel) {
+				console.log('current user session is active');
+			},
+			error: function(userModel, response) {
+				that.props.routing.navigate("", {trigger:true});
+			}
+		});
 		var shouldDisplay;
 		switch(this.props.userType){
 			case "non-profit":
-				shouldDisplay = <ForNonProfit/>;
+				shouldDisplay = <ForNonProfit user={this.props.loggedInUser}/>;
 				break;
 			case "applicant":
-				shouldDisplay = <ForApplicant/>;
+				shouldDisplay = <ForApplicant user={this.props.loggedInUser}/>;
 				break;
 			case "organization":
-				shouldDisplay = <ForOrg/>;
+				shouldDisplay = <ForOrg user={this.props.loggedInUser}/>;
 				break;
 		}
 		return {

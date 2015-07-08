@@ -24,13 +24,23 @@ var App = Backbone.Router.extend({
 		React.render(<SplashPage routing={this} />, containerEl);
 	},
 	login: function(){
-		React.render(<LoginPortal routing={this} />, containerEl);
+		React.render(<LoginPortal loggingIn={user} routing={this} />, containerEl);
 	},
 	signUp: function(){
 		React.render(<SignUpPortal routing={this} user={user} />, containerEl);
 	},
 	profile: function(type){
-		React.render(<ProfilePage userType={type} loggedInUser={user} routing={this} />, containerEl);
+		var that = this;
+		user.me({
+			error: function(user, res){
+				console.log(res);
+				that.navigate("", {trigger: true});
+			},
+			success: function(model){
+				React.render(<ProfilePage userType={type} loggedInUser={user} routing={that} />, containerEl);
+			}
+		})
+		
 	}
 });
 
