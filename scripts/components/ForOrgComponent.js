@@ -6,7 +6,7 @@ module.exports = React.createClass({
 		return (
 			<div>
 				Im for org!
-				<PDF url="/me.pdf"/>
+				<PDF url="/assets/testing.pdf"/>
 			</div>
 		);
 	}

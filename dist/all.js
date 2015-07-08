@@ -33786,7 +33786,7 @@ module.exports = React.createClass({
 			"div",
 			null,
 			"Im for org!",
-			React.createElement(PDF, { url: "/me.pdf" })
+			React.createElement(PDF, { url: "/assets/testing.pdf" })
 		);
 	}
 });
@@ -33891,39 +33891,45 @@ module.exports = React.createClass({
 	displayName: "exports",
 
 	render: function render() {
-		return React.createElement("canvas", { ref: "pdfView" });
-	},
-	componentDidMount: function componentDidMount() {
-		console.log(PDFJS);
-		var that = this;
-		PDFJS.getDocument(this.props.url).then(function getPdfHelloWorld(pdf) {
-			//
-			// Fetch the first page
-			//
-			pdf.getPage(1).then(function getPageHelloWorld(page) {
-				var scale = 1.5;
-				var viewport = page.getViewport(scale);
-
-				//
-				// Prepare canvas using PDF page dimensions
-				//
-				var canvas = that.refs.pdfView.getDOMNode();
-				var context = canvas.getContext("2d");
-				canvas.height = viewport.height;
-				canvas.width = viewport.width;
-
-				//
-				// Render PDF page into canvas context
-				//
-				var renderContext = {
-					canvasContext: context,
-					viewport: viewport
-				};
-				page.render(renderContext);
-			});
-		});
+		return React.createElement(
+			"div",
+			null,
+			React.createElement("iframe", { src: this.props.url })
+		);
 	}
 });
+// componentDidMount: function(){
+// 	console.log(PDFJS);
+// 	this.refs.pdfView.
+// 	// var that = this;
+// 	// PDFJS.getDocument(this.props.url).then(function getPdfHelloWorld(pdf) {
+// 	// 	//
+// 	// 	// Fetch the first page
+// 	// 	//
+// 	// 	console.log(pdf);
+// 	// 	pdf.getPage(2).then(function getPageHelloWorld(page) {
+// 	// 	  var scale = 3;
+// 	// 	  var viewport = page.getViewport(scale);
+
+// 	// 	  //
+// 	// 	  // Prepare canvas using PDF page dimensions
+// 	// 	  //
+// 	// 	  var canvas = that.refs.pdfView.getDOMNode();
+// 	// 	  var context = canvas.getContext('2d');
+// 	// 	  canvas.height = viewport.height;
+// 	// 	  canvas.width = viewport.width;
+
+// 	// 	  //
+// 	// 	  // Render PDF page into canvas context
+// 	// 	  //
+// 	// 	  var renderContext = {
+// 	// 		canvasContext: context,
+// 	// 		viewport: viewport
+// 	// 	  };
+// 	// 	  page.render(renderContext);
+// 	// 	});
+// 	// });
+// }
 
 },{"react":160}],167:[function(require,module,exports){
 "use strict";
