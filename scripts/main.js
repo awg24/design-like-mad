@@ -8,10 +8,14 @@ var ProfilePage = require("./components/ProfilePage");
 var ForApplicant = require("./components/ForApplicantComponent");
 var ForNonProfit = require("./components/ForNonProfitComponent");
 var ForOrg = require("./components/ForOrgComponent");
+var Banner = require("./components/BannerComponent");
 
 var containerEl = document.getElementById("container");
+var bannerEl = document.getElementById("banner");
 var UserModel = require("./models/UserModel");
 var user = new UserModel(); 
+
+React.render(<Banner />, bannerEl);
 
 var App = Backbone.Router.extend({
 	routes: {

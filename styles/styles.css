@@ -1,15 +1,37 @@
 iframe {
-	width: 500px;
+	width: 700px;
 	height: 500px;
 }
 label {
+
 	margin-right: 5px;
 	margin-left: 10px;
 }
+img {
+	display: block;
+	margin-right: auto;
+	margin-left: auto;
+}
 body {
-	background: #8F9E6F;
-	font-family: fantasy;
-	font-size: 20px;
+	background: #666666 url(../assets/bg-image.jpg);
+	background-repeat: no-repeat;
+	background-size: cover;
+	color: white;
+	font-family: 'Raleway', sans-serif;
+	line-height: 1.6;
+
+}
+.add-top-margin {
+	margin-top: 40px;
+}
+.add-bottom-margin {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+.add-line {
+	width: 50%;
+	height: 60px;
+	border-bottom: 3px solid white;
 }
 .add-margin {
 	margin-right: auto;
@@ -44,12 +66,15 @@ body {
 	background: #8F9E6F;
 	border-top: 5px solid #B1CF72;
 }
-.btn-forest {
-	height: 60px;
-	font-size: 25px;
-	margin-top: 20px;
-	background: #5E405F;
+.btn-blue {
+	font-family: 'Roboto Slab', serif;
+	height: 50px;
+	width3: 200px;
+	background: #28a9e1;
 	color: white;
+	border: 1px solid #28a9e1;
+	border-radius: 3px;
+	border-bottom: 3px solid #0a90bf;
 }
 .btn-forest-2 {
 	height: 35px;
@@ -63,14 +88,20 @@ body {
 .forest-mod {
 	width: 150px;
 }
-.input-fantasy {
+.input-style {
 	margin-bottom: 3px;
-	height: 35px;
+	height: 30px;
 	width: 300px;
 }
+.sizing {
+	width: 120px;
+	font-size: 15px;
+}
+.btn-change {
+	height: 25px;
+}
 .go-white {
-	font-family: fantasy;
-	text-decoration: none;
+	font-family: 'Roboto Slab', serif;
 	color: white;
 }
 a {
@@ -107,6 +138,9 @@ a {
 	margin-left: auto;
 	margin-right: auto;
 }
+.style-heading {
+	font-size: 20px;
+}
 select {
   border: 1px solid #111;
   background: #4F364C;
@@ -116,3 +150,27 @@ select {
   height: 34px;
   color: white;
 }
+@media(min-width:1200px){
+	.change-font {
+		font-size:25px;
+	}
+}
+@media(max-width:1010px){
+	body {
+		background: #666666 
+	}
+	#banner {
+		background: #666666 url(../assets/bg-image.jpg);
+		background-repeat: no-repeat;
+		background-size: cover;
+		color: white;
+		font-family: 'Raleway', sans-serif;
+		line-height: 1.6;
+	}
+}
+@media(min-width:991px){
+	.add-padding {
+		padding:20px;
+	}
+}
+
