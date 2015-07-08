@@ -3478,6 +3478,8 @@ module.exports = function(parseSettings) {
 			headers['X-Parse-Session-Token'] = sessionToken;
 		}
 
+		console.log('getHeaders', headers);
+
 		return headers;
 	}
 
@@ -3514,9 +3516,6 @@ module.exports = function(parseSettings) {
 		},
 		logout: function(options) {
 			var self = this;
-			sessionToken = null;
-			this.clear();
-			window.localStorage.removeItem('sessionToken');
 			options = options || {};
 			Backbone.$.ajax({
 				//data
@@ -3536,6 +3535,9 @@ module.exports = function(parseSettings) {
 				self.set(data);
 				if(options.success) {
 					options.success(self);
+					sessionToken = null;
+					self.clear();
+					window.localStorage.removeItem('sessionToken');
 				}
 			})
 			.error(function(response) {
@@ -3636,23 +3638,7 @@ module.exports = function(parseSettings) {
 			headers: getHeaders()
 		};
 
-		request = _.extend(options, request);
-		var error = request.error;
-
-		request.error = function(err) {
-			// Invalid session token
-			if(err.responseJSON.code === 209) {
-				sessionToken = null;
-				window.localStorage.removeItem('sessionToken');
-				request.headers = getHeaders();
-				$.ajax(request);
-			}
-			else {
-				error(err);
-			}
-		};
-
-		return $.ajax(request);
+		return $.ajax(_.extend(options, request));
 	};
 
 	return Backbone;
@@ -32774,7 +32760,7 @@ module.exports = require('./lib/React');
 
     'use strict';
 
-    validator = { version: '3.41.1' };
+    validator = { version: '3.40.1' };
 
     var emailUser = /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e])|(\\[\x01-\x09\x0b\x0c\x0d-\x7f])))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))$/i;
 
@@ -32826,8 +32812,7 @@ module.exports = require('./lib/React');
       'el-GR': /^(\+30)?((2\d{9})|(69\d{8}))$/,
       'en-GB': /^(\+?44|0)7\d{9}$/,
       'en-US': /^(\+?1)?[2-9]\d{2}[2-9](?!11)\d{6}$/,
-      'en-ZM': /^(\+26)?09[567]\d{7}$/,
-      'ru-RU': /^(\+?7|8)?9\d{9}$/
+      'en-ZM': /^(\+26)?09[567]\d{7}$/
     };
 
     validator.extend = function (name, fn) {
@@ -33016,7 +33001,7 @@ module.exports = require('./lib/React');
         } else if (version === '6') {
             var blocks = str.split(':');
             var foundOmissionBlock = false; // marker to indicate ::
-
+            
             // At least some OS accept the last 32 bits of an IPv6 address
             // (i.e. 2 of the blocks) in IPv4 notation, and RFC 3493 says
             // that '::ffff:a.b.c.d' is valid for IPv4-mapped IPv6 addresses,
@@ -33787,10 +33772,11 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../models/NonProfitModel":170,"react":160}],164:[function(require,module,exports){
+},{"../models/NonProfitModel":171,"react":160}],164:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
+var PDF = require("./PDFViewer");
 
 module.exports = React.createClass({
 	displayName: "exports",
@@ -33799,12 +33785,13 @@ module.exports = React.createClass({
 		return React.createElement(
 			"div",
 			null,
-			"Im for org!"
+			"Im for org!",
+			React.createElement(PDF, { url: "/me.pdf" })
 		);
 	}
 });
 
-},{"react":160}],165:[function(require,module,exports){
+},{"./PDFViewer":166,"react":160}],165:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -33896,6 +33883,49 @@ module.exports = React.createClass({
 });
 
 },{"react":160}],166:[function(require,module,exports){
+"use strict";
+
+var React = require("react");
+
+module.exports = React.createClass({
+	displayName: "exports",
+
+	render: function render() {
+		return React.createElement("canvas", { ref: "pdfView" });
+	},
+	componentDidMount: function componentDidMount() {
+		console.log(PDFJS);
+		var that = this;
+		PDFJS.getDocument(this.props.url).then(function getPdfHelloWorld(pdf) {
+			//
+			// Fetch the first page
+			//
+			pdf.getPage(1).then(function getPageHelloWorld(page) {
+				var scale = 1.5;
+				var viewport = page.getViewport(scale);
+
+				//
+				// Prepare canvas using PDF page dimensions
+				//
+				var canvas = that.refs.pdfView.getDOMNode();
+				var context = canvas.getContext("2d");
+				canvas.height = viewport.height;
+				canvas.width = viewport.width;
+
+				//
+				// Render PDF page into canvas context
+				//
+				var renderContext = {
+					canvasContext: context,
+					viewport: viewport
+				};
+				page.render(renderContext);
+			});
+		});
+	}
+});
+
+},{"react":160}],167:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -33991,13 +34021,13 @@ module.exports = React.createClass({
 		);
 	},
 	showApplicant: function showApplicant() {
-		this.setState({ displayPage: React.createElement(ForApplicant, null) });
+		this.setState({ displayPage: React.createElement(ForApplicant, { user: this.props.loggedInUser }) });
 	},
 	showNonProfit: function showNonProfit() {
-		this.setState({ displayPage: React.createElement(ForNonProfit, null) });
+		this.setState({ displayPage: React.createElement(ForNonProfit, { user: this.props.loggedInUser }) });
 	},
 	showOrg: function showOrg() {
-		this.setState({ displayPage: React.createElement(ForOrg, null) });
+		this.setState({ displayPage: React.createElement(ForOrg, { user: this.props.loggedInUser }) });
 	},
 	logoutUser: function logoutUser() {
 		var that = this;
@@ -34013,7 +34043,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"./ForApplicantComponent":162,"./ForNonProfitComponent":163,"./ForOrgComponent":164,"react":160}],167:[function(require,module,exports){
+},{"./ForApplicantComponent":162,"./ForNonProfitComponent":163,"./ForOrgComponent":164,"react":160}],168:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34192,7 +34222,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"jquery":5,"react":160}],168:[function(require,module,exports){
+},{"jquery":5,"react":160}],169:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34240,7 +34270,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"react":160}],169:[function(require,module,exports){
+},{"react":160}],170:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34291,7 +34321,7 @@ var App = Backbone.Router.extend({
 var myRoutes = new App();
 Backbone.history.start();
 
-},{"./components/ForApplicantComponent":162,"./components/ForNonProfitComponent":163,"./components/ForOrgComponent":164,"./components/LoginPortal":165,"./components/ProfilePage":166,"./components/SignUpPortal":167,"./components/SplashPage":168,"./models/UserModel":171,"backbone":1,"react":160}],170:[function(require,module,exports){
+},{"./components/ForApplicantComponent":162,"./components/ForNonProfitComponent":163,"./components/ForOrgComponent":164,"./components/LoginPortal":165,"./components/ProfilePage":167,"./components/SignUpPortal":168,"./components/SplashPage":169,"./models/UserModel":172,"backbone":1,"react":160}],171:[function(require,module,exports){
 'use strict';
 
 var Backbone = require('backparse')({
@@ -34348,7 +34378,7 @@ module.exports = Backbone.Model.extend({
 	}
 });
 
-},{"backbone/node_modules/underscore":2,"backparse":3,"validator":161}],171:[function(require,module,exports){
+},{"backbone/node_modules/underscore":2,"backparse":3,"validator":161}],172:[function(require,module,exports){
 'use strict';
 
 var Backbone = require('backparse')({
@@ -34405,7 +34435,7 @@ module.exports = Backbone.Model.extend({
 	isUser: true
 });
 
-},{"backbone/node_modules/underscore":2,"backparse":3,"validator":161}]},{},[169])
+},{"backbone/node_modules/underscore":2,"backparse":3,"validator":161}]},{},[170])
 
 
 //# sourceMappingURL=all.js.map
