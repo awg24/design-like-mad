@@ -5,11 +5,19 @@ var ForOrg = require("./ForOrgComponent");
 var profileEl = document.getElementById("profile-things");
 
 module.exports = React.createClass({
+	componentWillMount: function(){
+		var that = this;
+		this.props.loggedInUser.on("add", function(){
+			console.log("model was changed")
+			//that.forceUpdate();
+		});
+	},
 	getInitialState: function(){
 		var that = this;
 		this.props.loggedInUser.me({
 			success: function(userModel) {
 				console.log('current user session is active');
+				that.forceUpdate();
 			},
 			error: function(userModel, response) {
 				that.props.routing.navigate("", {trigger:true});
@@ -23,7 +31,7 @@ module.exports = React.createClass({
 			case "applicant":
 				shouldDisplay = <ForApplicant user={this.props.loggedInUser}/>;
 				break;
-			case "organization":
+			case "organizer":
 				shouldDisplay = <ForOrg user={this.props.loggedInUser}/>;
 				break;
 		}
@@ -32,16 +40,13 @@ module.exports = React.createClass({
 		};
 	},
 	render: function(){
-		console.log(this.props.loggedInUser);
 		return (
 			<div>
-				<div className="nav-bar text-center">Design Like Mad</div>
-				<div className="text-center container-fluid half-height-2-mod">
+				<div className="text-center container-fluid">
 				<ul className="nav nav-tabs">
-					<li className="go-white med-font" role="presentation"><a onClick={this.showApplicant}>Applicants</a></li>
-					<li className="go-white med-font" role="presentation"><a onClick={this.showNonProfit}>Non-Profits</a></li>
-					<li className="go-white med-font" role="presentation"><a onClick={this.showOrg}>Organizations</a></li>
-					<button onClick={this.logoutUser} className="pull-right btn btn-forest-2 forest-mod">Logout</button>
+					<li className="med-font" role="presentation"><a onClick={this.showApplicant}>Applicants</a></li>
+					<li className="med-font" role="presentation"><a onClick={this.showNonProfit}>Non-Profits</a></li>
+					<li className="med-font" role="presentation"><a onClick={this.showOrg}>Organizers</a></li>
 				</ul>
 				<section id="profile-things">
 				{this.state.displayPage}</section>
@@ -57,17 +62,5 @@ module.exports = React.createClass({
 	},
 	showOrg: function(){
 		this.setState({displayPage: <ForOrg user={this.props.loggedInUser}/>});
-	},
-	logoutUser: function(){
-		var that = this;
-		this.props.loggedInUser.logout({
-			success: function(userModel) {
-				console.log('user was logged out');
-				that.props.routing.navigate("", {trigger:true});
-			},
-			error: function(userModel, response) {
-				console.log('problem logging out the user', response.responseJSON);
-			}
-		});
 	}
 });

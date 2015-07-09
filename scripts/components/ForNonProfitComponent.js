@@ -24,13 +24,13 @@ module.exports = React.createClass({
 					<div className="container">
 						<div className="col-sm-6">
 							<label>Name of Non-Profit</label><br/>
-							<input ref="nonProfitName" className="input-fantasy" type="text" placeholder="name"/>
+							<input ref="nonProfitName" className="input-style" type="text" placeholder="name"/>
 							<br/><span className="errors">{this.state.errors.name}</span><br/>
 							<label>Phone number to reach Non-Profit</label><br/>
-							<input ref="phone" className="input-fantasy" type="tel" placeholder="555-5555"/>
+							<input ref="phone" className="input-style" type="tel" placeholder="555-5555"/>
 							<br/><span className="errors">{this.state.errors.phoneNum}</span><br/>
 							<label>Site of Non-Profit</label><br/>
-							<input ref="nonProfitSite" className="input-fantasy" type="text" placeholder="website (optional)"/>
+							<input ref="nonProfitSite" className="input-style" type="text" placeholder="website (optional)"/>
 						</div>
 						<div className="col-sm-6">
 							<label>What kind of project are you offering?</label><br/>
@@ -49,7 +49,7 @@ module.exports = React.createClass({
 						</div>
 					</div>
 					{successMessage}<br/>
-					<button className="btn btn-forest-2 forest-mod" type="submit">Submit</button>
+					<button className="btn-blue btn-change" type="submit">Submit</button>
 				</form>
 			</div>
 		);

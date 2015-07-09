@@ -33495,6 +33495,71 @@ var React = require("react");
 module.exports = React.createClass({
 	displayName: "exports",
 
+	componentWillMount: function componentWillMount() {
+		this.props.loggedInUser.on("change", function () {
+			this.forceUpdate();
+		}, this);
+	},
+	render: function render() {
+		var logoutBtn = [];
+		if (this.props.loggedInUser.attributes.username) {
+			logoutBtn.push(React.createElement(
+				"button",
+				{ key: "1", onClick: this.logoutUser, className: "pull-right btn-blue btn-log btn-small" },
+				"Logout"
+			));
+		}
+		return React.createElement(
+			"div",
+			null,
+			React.createElement(
+				"div",
+				{ className: "container-fluid" },
+				React.createElement("div", { className: "col-md-5" }),
+				React.createElement(
+					"div",
+					{ className: "col-md-2" },
+					React.createElement("img", { className: "img-responsive", src: "../../assets/logo.png" })
+				),
+				React.createElement(
+					"div",
+					{ className: "col-md-5" },
+					logoutBtn
+				)
+			),
+			React.createElement(
+				"div",
+				{ className: "text-center container" },
+				React.createElement(
+					"div",
+					{ className: "center-block add-bottom-margin change-font" },
+					"ARE YOU READY TO DESIGN LIKE MAD?"
+				)
+			)
+		);
+	},
+	logoutUser: function logoutUser() {
+		var that = this;
+		this.props.loggedInUser.logout({
+			success: function success(userModel) {
+				console.log("user was logged out");
+				that.props.routing.navigate("", { trigger: true });
+			},
+			error: function error(userModel, response) {
+				console.log("problem logging out the user", response.responseJSON);
+			}
+		});
+	}
+});
+
+},{"react":160}],163:[function(require,module,exports){
+"use strict";
+
+var React = require("react");
+
+module.exports = React.createClass({
+	displayName: "exports",
+
 	render: function render() {
 		return React.createElement(
 			"div",
@@ -33548,7 +33613,7 @@ module.exports = React.createClass({
 				React.createElement("br", null),
 				React.createElement(
 					"button",
-					{ className: "btn btn-forest-2" },
+					{ className: "btn-blue btn-change" },
 					"Upload Your Portfolio"
 				),
 				React.createElement("br", null),
@@ -33561,26 +33626,35 @@ module.exports = React.createClass({
 				React.createElement(
 					"div",
 					{ className: "text-left set-width" },
-					React.createElement("input", { type: "radio", name: "skill" }),
-					" ",
+					React.createElement("input", { id: "radio1", name: "user-type", value: "applicant", type: "radio" }),
 					React.createElement(
 						"label",
-						null,
+						{ htmlFor: "radio1" },
+						React.createElement("span", null)
+					),
+					React.createElement(
+						"span",
+						{ className: "change-label" },
 						"Professional"
 					),
 					React.createElement("br", null),
-					React.createElement("input", { type: "radio", name: "skill" }),
-					" ",
+					React.createElement("input", { id: "radio2", name: "user-type", value: "non-profit", type: "radio" }),
 					React.createElement(
 						"label",
-						null,
+						{ htmlFor: "radio2" },
+						React.createElement("span", null)
+					),
+					React.createElement(
+						"span",
+						{ className: "change-label" },
 						"Student"
-					)
+					),
+					React.createElement("br", null)
 				),
 				React.createElement("br", null),
 				React.createElement(
 					"button",
-					{ className: "btn btn-forest-2 forest-mod", type: "submit" },
+					{ className: "btn-blue btn-change", type: "submit" },
 					"Submit"
 				)
 			)
@@ -33588,7 +33662,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"react":160}],163:[function(require,module,exports){
+},{"react":160}],164:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -33631,7 +33705,7 @@ module.exports = React.createClass({
 							"Name of Non-Profit"
 						),
 						React.createElement("br", null),
-						React.createElement("input", { ref: "nonProfitName", className: "input-fantasy", type: "text", placeholder: "name" }),
+						React.createElement("input", { ref: "nonProfitName", className: "input-style", type: "text", placeholder: "name" }),
 						React.createElement("br", null),
 						React.createElement(
 							"span",
@@ -33645,7 +33719,7 @@ module.exports = React.createClass({
 							"Phone number to reach Non-Profit"
 						),
 						React.createElement("br", null),
-						React.createElement("input", { ref: "phone", className: "input-fantasy", type: "tel", placeholder: "555-5555" }),
+						React.createElement("input", { ref: "phone", className: "input-style", type: "tel", placeholder: "555-5555" }),
 						React.createElement("br", null),
 						React.createElement(
 							"span",
@@ -33659,7 +33733,7 @@ module.exports = React.createClass({
 							"Site of Non-Profit"
 						),
 						React.createElement("br", null),
-						React.createElement("input", { ref: "nonProfitSite", className: "input-fantasy", type: "text", placeholder: "website (optional)" })
+						React.createElement("input", { ref: "nonProfitSite", className: "input-style", type: "text", placeholder: "website (optional)" })
 					),
 					React.createElement(
 						"div",
@@ -33744,7 +33818,7 @@ module.exports = React.createClass({
 				React.createElement("br", null),
 				React.createElement(
 					"button",
-					{ className: "btn btn-forest-2 forest-mod", type: "submit" },
+					{ className: "btn-blue btn-change", type: "submit" },
 					"Submit"
 				)
 			)
@@ -33787,26 +33861,38 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../models/NonProfitModel":171,"react":160}],164:[function(require,module,exports){
+},{"../models/NonProfitModel":172,"react":160}],165:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
 var PDF = require("./PDFViewer");
+var visible = [];
 
 module.exports = React.createClass({
 	displayName: "exports",
 
+	componentWillMount: function componentWillMount() {
+		console.log(this.props.user.attributes.userType);
+		if (this.props.user.attributes.userType !== "organizer") {
+			visible = [];
+			visible.push("You do not have access to this part!");
+		} else {
+			visible = [];
+			visible.push(React.createElement(PDF, { key: "2", url: "/assets/portfolio_samples/test2.pdf" }));
+		}
+		console.log("contents of visible", visible);
+	},
 	render: function render() {
+		console.log("render is being called");
 		return React.createElement(
 			"div",
 			null,
-			"Im for org!",
-			React.createElement(PDF, { url: "/me.pdf" })
+			visible
 		);
 	}
 });
 
-},{"./PDFViewer":166,"react":160}],165:[function(require,module,exports){
+},{"./PDFViewer":167,"react":160}],166:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -33825,43 +33911,25 @@ module.exports = React.createClass({
 			null,
 			React.createElement(
 				"div",
-				{ className: "container-fluid half-height text-center" },
-				"Design Like Mad"
-			),
-			React.createElement(
-				"div",
-				{ className: "text-center container-fluid half-height-2" },
-				React.createElement(
-					"label",
-					{ className: "go-white" },
-					"Not a member? ",
-					React.createElement(
-						"a",
-						{ href: "#signUp" },
-						"Sign up here!"
-					)
-				),
+				{ className: "text-center container-fluid" },
 				React.createElement(
 					"div",
-					{ className: "take-margin container" },
+					{ className: "container" },
 					React.createElement("div", { className: "col-sm-3" }),
 					React.createElement(
 						"div",
-						{ className: "text-center col-sm-6" },
-						React.createElement("br", null),
+						{ className: "col-sm-6" },
 						React.createElement("br", null),
 						React.createElement(
 							"form",
 							{ onSubmit: this.validateUser },
-							React.createElement("input", { className: "input-fantasy", ref: "username", type: "text", placeholder: "Username" }),
+							React.createElement("input", { className: "input-style", ref: "username", type: "text", placeholder: "Username" }),
 							React.createElement("br", null),
-							React.createElement("br", null),
-							React.createElement("input", { className: "input-fantasy", ref: "password", type: "password", placeholder: "Password" }),
-							React.createElement("br", null),
+							React.createElement("input", { className: "input-style", ref: "password", type: "password", placeholder: "Password" }),
 							React.createElement("br", null),
 							React.createElement(
 								"button",
-								{ className: "center-block btn-forest-2 btn" },
+								{ className: "center-block btn-change btn-blue" },
 								"Login"
 							)
 						),
@@ -33869,6 +33937,17 @@ module.exports = React.createClass({
 							"span",
 							{ className: "errors" },
 							this.state.errors.invalid
+						),
+						React.createElement("br", null),
+						React.createElement(
+							"label",
+							{ className: "go-white" },
+							"Not a member? ",
+							React.createElement(
+								"a",
+								{ href: "#signUp" },
+								"Sign up here!"
+							)
 						)
 					),
 					React.createElement("div", { className: "col-sm-3" })
@@ -33885,7 +33964,6 @@ module.exports = React.createClass({
 			password: this.refs.password.getDOMNode().value
 		}, {
 			success: function success(data) {
-				console.log(data);
 				that.props.routing.navigate("profile/" + data.attributes.userType, { trigger: true });
 			},
 			error: function error(data, res) {
@@ -33897,7 +33975,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"react":160}],166:[function(require,module,exports){
+},{"react":160}],167:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -33906,41 +33984,47 @@ module.exports = React.createClass({
 	displayName: "exports",
 
 	render: function render() {
-		return React.createElement("canvas", { ref: "pdfView" });
-	},
-	componentDidMount: function componentDidMount() {
-		console.log(PDFJS);
-		var that = this;
-		PDFJS.getDocument(this.props.url).then(function getPdfHelloWorld(pdf) {
-			//
-			// Fetch the first page
-			//
-			pdf.getPage(1).then(function getPageHelloWorld(page) {
-				var scale = 1.5;
-				var viewport = page.getViewport(scale);
-
-				//
-				// Prepare canvas using PDF page dimensions
-				//
-				var canvas = that.refs.pdfView.getDOMNode();
-				var context = canvas.getContext("2d");
-				canvas.height = viewport.height;
-				canvas.width = viewport.width;
-
-				//
-				// Render PDF page into canvas context
-				//
-				var renderContext = {
-					canvasContext: context,
-					viewport: viewport
-				};
-				page.render(renderContext);
-			});
-		});
+		return React.createElement(
+			"div",
+			null,
+			React.createElement("iframe", { src: this.props.url })
+		);
 	}
 });
+// componentDidMount: function(){
+// 	console.log(PDFJS);
+// 	this.refs.pdfView.
+// 	// var that = this;
+// 	// PDFJS.getDocument(this.props.url).then(function getPdfHelloWorld(pdf) {
+// 	// 	//
+// 	// 	// Fetch the first page
+// 	// 	//
+// 	// 	console.log(pdf);
+// 	// 	pdf.getPage(2).then(function getPageHelloWorld(page) {
+// 	// 	  var scale = 3;
+// 	// 	  var viewport = page.getViewport(scale);
 
-},{"react":160}],167:[function(require,module,exports){
+// 	// 	  //
+// 	// 	  // Prepare canvas using PDF page dimensions
+// 	// 	  //
+// 	// 	  var canvas = that.refs.pdfView.getDOMNode();
+// 	// 	  var context = canvas.getContext('2d');
+// 	// 	  canvas.height = viewport.height;
+// 	// 	  canvas.width = viewport.width;
+
+// 	// 	  //
+// 	// 	  // Render PDF page into canvas context
+// 	// 	  //
+// 	// 	  var renderContext = {
+// 	// 		canvasContext: context,
+// 	// 		viewport: viewport
+// 	// 	  };
+// 	// 	  page.render(renderContext);
+// 	// 	});
+// 	// });
+// }
+
+},{"react":160}],168:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -33952,11 +34036,18 @@ var profileEl = document.getElementById("profile-things");
 module.exports = React.createClass({
 	displayName: "exports",
 
+	componentWillMount: function componentWillMount() {
+		var that = this;
+		this.props.loggedInUser.on("add", function () {
+			console.log("model was changed");
+		});
+	},
 	getInitialState: function getInitialState() {
 		var that = this;
 		this.props.loggedInUser.me({
 			success: function success(userModel) {
 				console.log("current user session is active");
+				that.forceUpdate();
 			},
 			error: function error(userModel, response) {
 				that.props.routing.navigate("", { trigger: true });
@@ -33970,7 +34061,7 @@ module.exports = React.createClass({
 			case "applicant":
 				shouldDisplay = React.createElement(ForApplicant, { user: this.props.loggedInUser });
 				break;
-			case "organization":
+			case "organizer":
 				shouldDisplay = React.createElement(ForOrg, { user: this.props.loggedInUser });
 				break;
 		}
@@ -33979,24 +34070,18 @@ module.exports = React.createClass({
 		};
 	},
 	render: function render() {
-		console.log(this.props.loggedInUser);
 		return React.createElement(
 			"div",
 			null,
 			React.createElement(
 				"div",
-				{ className: "nav-bar text-center" },
-				"Design Like Mad"
-			),
-			React.createElement(
-				"div",
-				{ className: "text-center container-fluid half-height-2-mod" },
+				{ className: "text-center container-fluid" },
 				React.createElement(
 					"ul",
 					{ className: "nav nav-tabs" },
 					React.createElement(
 						"li",
-						{ className: "go-white med-font", role: "presentation" },
+						{ className: "med-font", role: "presentation" },
 						React.createElement(
 							"a",
 							{ onClick: this.showApplicant },
@@ -34005,7 +34090,7 @@ module.exports = React.createClass({
 					),
 					React.createElement(
 						"li",
-						{ className: "go-white med-font", role: "presentation" },
+						{ className: "med-font", role: "presentation" },
 						React.createElement(
 							"a",
 							{ onClick: this.showNonProfit },
@@ -34014,17 +34099,12 @@ module.exports = React.createClass({
 					),
 					React.createElement(
 						"li",
-						{ className: "go-white med-font", role: "presentation" },
+						{ className: "med-font", role: "presentation" },
 						React.createElement(
 							"a",
 							{ onClick: this.showOrg },
-							"Organizations"
+							"Organizers"
 						)
-					),
-					React.createElement(
-						"button",
-						{ onClick: this.logoutUser, className: "pull-right btn btn-forest-2 forest-mod" },
-						"Logout"
 					)
 				),
 				React.createElement(
@@ -34043,26 +34123,17 @@ module.exports = React.createClass({
 	},
 	showOrg: function showOrg() {
 		this.setState({ displayPage: React.createElement(ForOrg, { user: this.props.loggedInUser }) });
-	},
-	logoutUser: function logoutUser() {
-		var that = this;
-		this.props.loggedInUser.logout({
-			success: function success(userModel) {
-				console.log("user was logged out");
-				that.props.routing.navigate("", { trigger: true });
-			},
-			error: function error(userModel, response) {
-				console.log("problem logging out the user", response.responseJSON);
-			}
-		});
 	}
 });
+//that.forceUpdate();
 
-},{"./ForApplicantComponent":162,"./ForNonProfitComponent":163,"./ForOrgComponent":164,"react":160}],168:[function(require,module,exports){
+},{"./ForApplicantComponent":163,"./ForNonProfitComponent":164,"./ForOrgComponent":165,"react":160}],169:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
 var $ = require("jquery");
+var Banner = require("./BannerComponent");
+var bannerEl = document.getElementById("banner");
 
 module.exports = React.createClass({
 	displayName: "exports",
@@ -34078,16 +34149,100 @@ module.exports = React.createClass({
 			null,
 			React.createElement(
 				"div",
-				{ className: "container-fluid half-height text-center" },
-				"Design Like Mad"
-			),
-			React.createElement(
-				"div",
-				{ className: "text-center container-fluid half-height-2" },
+				{ className: "text-center container-fluid" },
+				React.createElement(
+					"div",
+					{ className: "text-left center-block style-heading" },
+					"Sign Up"
+				),
 				React.createElement(
 					"span",
 					{ className: "errors" },
 					this.state.errors.server
+				),
+				React.createElement(
+					"form",
+					{ onSubmit: this.validateSignUp },
+					React.createElement("input", { className: "input-style", ref: "name", type: "text", placeholder: "Name" }),
+					React.createElement(
+						"div",
+						{ className: "errors" },
+						this.state.errors.name
+					),
+					React.createElement("input", { className: "input-style", ref: "email", type: "text", placeholder: "Email" }),
+					React.createElement(
+						"div",
+						{ className: "errors" },
+						this.state.errors.email
+					),
+					React.createElement("input", { className: "input-style", ref: "username", type: "text", placeholder: "Username" }),
+					React.createElement(
+						"div",
+						{ className: "errors" },
+						this.state.errors.username
+					),
+					React.createElement("input", { className: "input-style", ref: "password", type: "password", placeholder: "Password" }),
+					React.createElement(
+						"div",
+						{ className: "errors" },
+						this.state.errors.password
+					),
+					React.createElement("input", { className: "input-style", ref: "confirmPassword", type: "password", placeholder: "Confirm Password" }),
+					React.createElement(
+						"div",
+						{ className: "errors" },
+						this.state.errors.confirm
+					),
+					React.createElement(
+						"div",
+						{ className: "center-block text-left sizing" },
+						React.createElement("input", { id: "radio1", name: "user-type", value: "applicant", type: "radio" }),
+						React.createElement(
+							"label",
+							{ htmlFor: "radio1" },
+							React.createElement("span", null)
+						),
+						React.createElement(
+							"span",
+							{ className: "change-label" },
+							"Applicant"
+						),
+						React.createElement("br", null),
+						React.createElement("input", { id: "radio2", name: "user-type", value: "non-profit", type: "radio" }),
+						React.createElement(
+							"label",
+							{ htmlFor: "radio2" },
+							React.createElement("span", null)
+						),
+						React.createElement(
+							"span",
+							{ className: "change-label" },
+							"Non-Profit"
+						),
+						React.createElement("br", null),
+						React.createElement("input", { id: "radio3", name: "user-type", value: "organizer", type: "radio" }),
+						React.createElement(
+							"label",
+							{ htmlFor: "radio3" },
+							React.createElement("span", null)
+						),
+						React.createElement(
+							"span",
+							{ className: "change-label" },
+							"Organizer"
+						),
+						React.createElement("br", null)
+					),
+					React.createElement(
+						"span",
+						{ className: "errors" },
+						this.state.errors.userType
+					),
+					React.createElement(
+						"button",
+						{ type: "submit", className: "center-block btn-change btn-blue" },
+						"Sign Up"
+					)
 				),
 				React.createElement(
 					"label",
@@ -34097,79 +34252,6 @@ module.exports = React.createClass({
 						"a",
 						{ href: "#login" },
 						"Login here!"
-					)
-				),
-				React.createElement(
-					"form",
-					{ onSubmit: this.validateSignUp },
-					React.createElement("input", { ref: "name", className: "input-fantasy", type: "text", placeholder: "Name" }),
-					React.createElement("br", null),
-					React.createElement(
-						"span",
-						{ className: "errors" },
-						this.state.errors.name
-					),
-					React.createElement("br", null),
-					React.createElement("input", { ref: "email", className: "input-fantasy", type: "text", placeholder: "Email" }),
-					React.createElement("br", null),
-					React.createElement(
-						"span",
-						{ className: "errors" },
-						this.state.errors.email
-					),
-					React.createElement("br", null),
-					React.createElement("input", { ref: "username", className: "input-fantasy", type: "text", placeholder: "Username" }),
-					React.createElement("br", null),
-					React.createElement(
-						"span",
-						{ className: "errors" },
-						this.state.errors.username
-					),
-					React.createElement("br", null),
-					React.createElement("input", { ref: "password", className: "input-fantasy", type: "password", placeholder: "Password" }),
-					React.createElement("br", null),
-					React.createElement(
-						"span",
-						{ className: "errors" },
-						this.state.errors.password
-					),
-					React.createElement("br", null),
-					React.createElement("input", { ref: "confirmPassword", className: "input-fantasy", type: "password", placeholder: "Confirm Password" }),
-					React.createElement("br", null),
-					React.createElement(
-						"span",
-						{ className: "errors" },
-						this.state.errors.confirm
-					),
-					React.createElement("br", null),
-					React.createElement(
-						"label",
-						null,
-						"Applicant"
-					),
-					React.createElement("input", { name: "user-type", value: "applicant", type: "radio" }),
-					React.createElement(
-						"label",
-						null,
-						"Non-Profit"
-					),
-					React.createElement("input", { name: "user-type", value: "non-profit", type: "radio" }),
-					React.createElement(
-						"label",
-						null,
-						"Organization"
-					),
-					React.createElement("input", { name: "user-type", value: "organization", type: "radio" }),
-					React.createElement("br", null),
-					React.createElement(
-						"span",
-						{ className: "errors" },
-						this.state.errors.userType
-					),
-					React.createElement(
-						"button",
-						{ type: "submit", className: "center-block btn-forest-2 btn" },
-						"Sign Up"
 					)
 				)
 			)
@@ -34237,11 +34319,11 @@ module.exports = React.createClass({
 	}
 });
 
-},{"jquery":5,"react":160}],169:[function(require,module,exports){
+},{"./BannerComponent":162,"jquery":5,"react":160}],170:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
-
+var Banner = require("./BannerComponent");
 module.exports = React.createClass({
 	displayName: "exports",
 
@@ -34251,28 +34333,23 @@ module.exports = React.createClass({
 			null,
 			React.createElement(
 				"div",
-				{ className: "container-fluid half-height text-center" },
-				"Design Like Mad"
-			),
-			React.createElement(
-				"div",
-				{ className: "container-fluid half-height-2" },
+				{ className: "add-top-margin container-fluid" },
 				React.createElement(
 					"div",
 					{ className: "center-block" },
-					React.createElement("div", { className: "col-sm-2" }),
+					React.createElement("div", { className: "col-xs-1 col-sm-1 col-md-1" }),
 					React.createElement(
 						"button",
-						{ onClick: this.goToSignUp, className: "btn btn-forest btn-change col-sm-3" },
-						"Sign Up"
+						{ onClick: this.goToSignUp, className: "btn-blue col-xs-4 col-sm-4 col-md-4" },
+						"SIGN UP"
 					),
-					React.createElement("div", { className: "col-sm-2" }),
+					React.createElement("div", { className: "col-xs-2 col-sm-2 col-md-2" }),
 					React.createElement(
 						"button",
-						{ onClick: this.goToLogin, className: "btn btn-forest col-sm-3" },
-						"Login"
+						{ onClick: this.goToLogin, className: "btn-blue col-xs-4 col-sm-4 col-md-4" },
+						"LOGIN"
 					),
-					React.createElement("div", { className: "col-sm-2" })
+					React.createElement("div", { className: "col-xs-1 col-sm-1 col-md-1" })
 				)
 			)
 		);
@@ -34285,7 +34362,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"react":160}],170:[function(require,module,exports){
+},{"./BannerComponent":162,"react":160}],171:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34298,8 +34375,10 @@ var ProfilePage = require("./components/ProfilePage");
 var ForApplicant = require("./components/ForApplicantComponent");
 var ForNonProfit = require("./components/ForNonProfitComponent");
 var ForOrg = require("./components/ForOrgComponent");
+var Banner = require("./components/BannerComponent");
 
 var containerEl = document.getElementById("container");
+var bannerEl = document.getElementById("banner");
 var UserModel = require("./models/UserModel");
 var user = new UserModel();
 
@@ -34334,9 +34413,11 @@ var App = Backbone.Router.extend({
 });
 
 var myRoutes = new App();
+
+React.render(React.createElement(Banner, { loggedInUser: user, routing: myRoutes }), bannerEl);
 Backbone.history.start();
 
-},{"./components/ForApplicantComponent":162,"./components/ForNonProfitComponent":163,"./components/ForOrgComponent":164,"./components/LoginPortal":165,"./components/ProfilePage":167,"./components/SignUpPortal":168,"./components/SplashPage":169,"./models/UserModel":172,"backbone":1,"react":160}],171:[function(require,module,exports){
+},{"./components/BannerComponent":162,"./components/ForApplicantComponent":163,"./components/ForNonProfitComponent":164,"./components/ForOrgComponent":165,"./components/LoginPortal":166,"./components/ProfilePage":168,"./components/SignUpPortal":169,"./components/SplashPage":170,"./models/UserModel":173,"backbone":1,"react":160}],172:[function(require,module,exports){
 'use strict';
 
 var Backbone = require('backparse')({
@@ -34393,7 +34474,7 @@ module.exports = Backbone.Model.extend({
 	}
 });
 
-},{"backbone/node_modules/underscore":2,"backparse":3,"validator":161}],172:[function(require,module,exports){
+},{"backbone/node_modules/underscore":2,"backparse":3,"validator":161}],173:[function(require,module,exports){
 'use strict';
 
 var Backbone = require('backparse')({
@@ -34450,7 +34531,7 @@ module.exports = Backbone.Model.extend({
 	isUser: true
 });
 
-},{"backbone/node_modules/underscore":2,"backparse":3,"validator":161}]},{},[170])
+},{"backbone/node_modules/underscore":2,"backparse":3,"validator":161}]},{},[171])
 
 
 //# sourceMappingURL=all.js.map

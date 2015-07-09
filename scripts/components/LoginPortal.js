@@ -9,19 +9,20 @@ module.exports = React.createClass({
 	render: function(){
 		return (
 			<div>
-				<div className="container-fluid half-height text-center">Design Like Mad</div>
-				<div className="text-center container-fluid half-height-2">
-					<label className="go-white">Not a member? <a href="#signUp">Sign up here!</a></label>
-					<div className="take-margin container">
+				<div className="text-center container-fluid">
+					<div className="container">
 						<div className="col-sm-3"></div>
-						<div className="text-center col-sm-6"><br/><br/>
+						<div className="col-sm-6"><br/>
 							<form onSubmit={this.validateUser}>
-								<input className="input-fantasy" ref="username" type="text" placeholder="Username" /><br/><br/>
-								<input className="input-fantasy" ref="password" type="password" placeholder="Password" />
-								<br/><br/>
-								<button className="center-block btn-forest-2 btn">Login</button>
+								<input className="input-style" ref="username" type="text" placeholder="Username" /><br/>
+								<input className="input-style" ref="password" type="password" placeholder="Password" />
+								<br/>
+								<button className="center-block btn-change btn-blue">Login</button>
 							</form>
 							<span className="errors">{this.state.errors.invalid}</span>
+							<br/>
+							<label className="go-white">Not a member? <a href="#signUp">Sign up here!</a></label>
+							
 						</div>
 						<div className="col-sm-3"></div>
 					</div>
@@ -38,7 +39,6 @@ module.exports = React.createClass({
 				password: this.refs.password.getDOMNode().value
 			},{
 				success:function(data){
-					console.log(data);
 					that.props.routing.navigate("profile/"+data.attributes.userType, {trigger: true});
 				},
 				error: function(data, res){

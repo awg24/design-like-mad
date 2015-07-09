@@ -8,8 +8,10 @@ var ProfilePage = require("./components/ProfilePage");
 var ForApplicant = require("./components/ForApplicantComponent");
 var ForNonProfit = require("./components/ForNonProfitComponent");
 var ForOrg = require("./components/ForOrgComponent");
+var Banner = require("./components/BannerComponent");
 
 var containerEl = document.getElementById("container");
+var bannerEl = document.getElementById("banner");
 var UserModel = require("./models/UserModel");
 var user = new UserModel(); 
 
@@ -45,4 +47,6 @@ var App = Backbone.Router.extend({
 });
 
 var myRoutes = new App();
+
+React.render(<Banner loggedInUser={user} routing={myRoutes} />, bannerEl);
 Backbone.history.start();

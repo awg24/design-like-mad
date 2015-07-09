@@ -1,5 +1,7 @@
 var React = require("react");
 var $ = require("jquery");
+var Banner = require("./BannerComponent");
+var bannerEl = document.getElementById("banner");
 
 module.exports = React.createClass({
 	getInitialState: function(){
@@ -10,30 +12,32 @@ module.exports = React.createClass({
 	render: function(){
 		return (
 			<div>
-				<div className="container-fluid half-height text-center">
-					Design Like Mad
-				</div>
-				<div className="text-center container-fluid half-height-2">
-				<span className="errors">{this.state.errors.server}</span>
-				<label className="go-white">Already a member? <a href="#login">Login here!</a></label>
-					<form onSubmit={this.validateSignUp}>
-						<input ref="name" className="input-fantasy" type="text" placeholder="Name" /><br/>
-						<span className="errors">{this.state.errors.name}</span><br/>
-						<input ref="email" className="input-fantasy" type="text" placeholder="Email" /><br/>
-						<span className="errors">{this.state.errors.email}</span><br/>
-						<input ref="username" className="input-fantasy" type="text" placeholder="Username" /><br/>
-						<span className="errors">{this.state.errors.username}</span><br/>
-						<input ref="password" className="input-fantasy" type="password" placeholder="Password" /><br/>
-						<span className="errors">{this.state.errors.password}</span><br/>
-						<input ref="confirmPassword" className="input-fantasy" type="password" placeholder="Confirm Password" /><br/>
-						<span className="errors">{this.state.errors.confirm}</span>
-						<br/>
-						<label>Applicant</label><input name="user-type" value="applicant" type="radio"/>
-						<label>Non-Profit</label><input name="user-type" value="non-profit" type="radio"/>
-						<label>Organization</label><input name="user-type" value="organization" type="radio"/><br/>
-						<span className="errors">{this.state.errors.userType}</span>
-						<button type="submit" className="center-block btn-forest-2 btn">Sign Up</button>
-					</form>
+				<div className="text-center container-fluid">
+					<div className="text-left center-block style-heading">Sign Up</div>
+					<span className="errors">{this.state.errors.server}</span>
+						<form onSubmit={this.validateSignUp}>
+							<input className="input-style" ref="name" type="text" placeholder="Name" />
+							<div className="errors">{this.state.errors.name}</div>
+							<input className="input-style" ref="email" type="text" placeholder="Email" />
+							<div className="errors">{this.state.errors.email}</div>
+							<input className="input-style" ref="username" type="text" placeholder="Username" />
+							<div className="errors">{this.state.errors.username}</div>
+							<input className="input-style" ref="password" type="password" placeholder="Password" />
+							<div className="errors">{this.state.errors.password}</div>
+							<input className="input-style" ref="confirmPassword" type="password" placeholder="Confirm Password" />
+							<div className="errors">{this.state.errors.confirm}</div>
+							<div className="center-block text-left sizing">
+								<input id="radio1" name="user-type" value="applicant" type="radio"/><label htmlFor="radio1"><span>
+								</span></label><span className="change-label">Applicant</span><br/>
+								<input id="radio2" name="user-type" value="non-profit" type="radio"/><label htmlFor="radio2"><span>
+								</span></label><span className="change-label">Non-Profit</span><br/>
+								<input id="radio3" name="user-type" value="organizer" type="radio"/><label htmlFor="radio3"><span>
+								</span></label><span className="change-label">Organizer</span><br/>
+							</div>
+							<span className="errors">{this.state.errors.userType}</span>
+							<button type="submit" className="center-block btn-change btn-blue">Sign Up</button>
+						</form>
+						<label className="go-white">Already a member? <a href="#login">Login here!</a></label>
 				</div>
 			</div>
 		);
