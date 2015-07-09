@@ -15,8 +15,6 @@ var bannerEl = document.getElementById("banner");
 var UserModel = require("./models/UserModel");
 var user = new UserModel(); 
 
-React.render(<Banner />, bannerEl);
-
 var App = Backbone.Router.extend({
 	routes: {
 		"": "splash",
@@ -49,4 +47,6 @@ var App = Backbone.Router.extend({
 });
 
 var myRoutes = new App();
+
+React.render(<Banner loggedInUser={user} routing={myRoutes} />, bannerEl);
 Backbone.history.start();

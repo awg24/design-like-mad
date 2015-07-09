@@ -33480,20 +33480,37 @@ var React = require("react");
 module.exports = React.createClass({
 	displayName: "exports",
 
+	componentWillMount: function componentWillMount() {
+		this.props.loggedInUser.on("change", function () {
+			this.forceUpdate();
+		}, this);
+	},
 	render: function render() {
+		var logoutBtn = [];
+		if (this.props.loggedInUser.attributes.username) {
+			logoutBtn.push(React.createElement(
+				"button",
+				{ key: "1", onClick: this.logoutUser, className: "pull-right btn-blue btn-log btn-small" },
+				"Logout"
+			));
+		}
 		return React.createElement(
 			"div",
 			null,
 			React.createElement(
 				"div",
-				{ className: "container" },
+				{ className: "container-fluid" },
 				React.createElement("div", { className: "col-md-5" }),
 				React.createElement(
 					"div",
 					{ className: "col-md-2" },
 					React.createElement("img", { className: "img-responsive", src: "../../assets/logo.png" })
 				),
-				React.createElement("div", { className: "col-md-5" })
+				React.createElement(
+					"div",
+					{ className: "col-md-5" },
+					logoutBtn
+				)
 			),
 			React.createElement(
 				"div",
@@ -33505,6 +33522,18 @@ module.exports = React.createClass({
 				)
 			)
 		);
+	},
+	logoutUser: function logoutUser() {
+		var that = this;
+		this.props.loggedInUser.logout({
+			success: function success(userModel) {
+				console.log("user was logged out");
+				that.props.routing.navigate("", { trigger: true });
+			},
+			error: function error(userModel, response) {
+				console.log("problem logging out the user", response.responseJSON);
+			}
+		});
 	}
 });
 
@@ -33569,7 +33598,7 @@ module.exports = React.createClass({
 				React.createElement("br", null),
 				React.createElement(
 					"button",
-					{ className: "btn btn-forest-2" },
+					{ className: "btn-blue btn-change" },
 					"Upload Your Portfolio"
 				),
 				React.createElement("br", null),
@@ -33582,26 +33611,35 @@ module.exports = React.createClass({
 				React.createElement(
 					"div",
 					{ className: "text-left set-width" },
-					React.createElement("input", { type: "radio", name: "skill" }),
-					" ",
+					React.createElement("input", { id: "radio1", name: "user-type", value: "applicant", type: "radio" }),
 					React.createElement(
 						"label",
-						null,
+						{ htmlFor: "radio1" },
+						React.createElement("span", null)
+					),
+					React.createElement(
+						"span",
+						{ className: "change-label" },
 						"Professional"
 					),
 					React.createElement("br", null),
-					React.createElement("input", { type: "radio", name: "skill" }),
-					" ",
+					React.createElement("input", { id: "radio2", name: "user-type", value: "non-profit", type: "radio" }),
 					React.createElement(
 						"label",
-						null,
+						{ htmlFor: "radio2" },
+						React.createElement("span", null)
+					),
+					React.createElement(
+						"span",
+						{ className: "change-label" },
 						"Student"
-					)
+					),
+					React.createElement("br", null)
 				),
 				React.createElement("br", null),
 				React.createElement(
 					"button",
-					{ className: "btn btn-forest-2 forest-mod", type: "submit" },
+					{ className: "btn-blue btn-change", type: "submit" },
 					"Submit"
 				)
 			)
@@ -33652,7 +33690,7 @@ module.exports = React.createClass({
 							"Name of Non-Profit"
 						),
 						React.createElement("br", null),
-						React.createElement("input", { ref: "nonProfitName", className: "input-fantasy", type: "text", placeholder: "name" }),
+						React.createElement("input", { ref: "nonProfitName", className: "input-style", type: "text", placeholder: "name" }),
 						React.createElement("br", null),
 						React.createElement(
 							"span",
@@ -33666,7 +33704,7 @@ module.exports = React.createClass({
 							"Phone number to reach Non-Profit"
 						),
 						React.createElement("br", null),
-						React.createElement("input", { ref: "phone", className: "input-fantasy", type: "tel", placeholder: "555-5555" }),
+						React.createElement("input", { ref: "phone", className: "input-style", type: "tel", placeholder: "555-5555" }),
 						React.createElement("br", null),
 						React.createElement(
 							"span",
@@ -33680,7 +33718,7 @@ module.exports = React.createClass({
 							"Site of Non-Profit"
 						),
 						React.createElement("br", null),
-						React.createElement("input", { ref: "nonProfitSite", className: "input-fantasy", type: "text", placeholder: "website (optional)" })
+						React.createElement("input", { ref: "nonProfitSite", className: "input-style", type: "text", placeholder: "website (optional)" })
 					),
 					React.createElement(
 						"div",
@@ -33765,7 +33803,7 @@ module.exports = React.createClass({
 				React.createElement("br", null),
 				React.createElement(
 					"button",
-					{ className: "btn btn-forest-2 forest-mod", type: "submit" },
+					{ className: "btn-blue btn-change", type: "submit" },
 					"Submit"
 				)
 			)
@@ -33813,16 +33851,28 @@ module.exports = React.createClass({
 
 var React = require("react");
 var PDF = require("./PDFViewer");
+var visible = [];
 
 module.exports = React.createClass({
 	displayName: "exports",
 
+	componentWillMount: function componentWillMount() {
+		console.log(this.props.user.attributes.userType);
+		if (this.props.user.attributes.userType !== "organizer") {
+			visible = [];
+			visible.push("You do not have access to this part!");
+		} else {
+			visible = [];
+			visible.push(React.createElement(PDF, { key: "2", url: "/assets/portfolio_samples/test2.pdf" }));
+		}
+		console.log("contents of visible", visible);
+	},
 	render: function render() {
+		console.log("render is being called");
 		return React.createElement(
 			"div",
 			null,
-			"Im for org!",
-			React.createElement(PDF, { url: "/assets/portfolio_samples/test2.pdf" })
+			visible
 		);
 	}
 });
@@ -33846,43 +33896,25 @@ module.exports = React.createClass({
 			null,
 			React.createElement(
 				"div",
-				{ className: "container-fluid half-height text-center" },
-				"Design Like Mad"
-			),
-			React.createElement(
-				"div",
-				{ className: "text-center container-fluid half-height-2" },
-				React.createElement(
-					"label",
-					{ className: "go-white" },
-					"Not a member? ",
-					React.createElement(
-						"a",
-						{ href: "#signUp" },
-						"Sign up here!"
-					)
-				),
+				{ className: "text-center container-fluid" },
 				React.createElement(
 					"div",
-					{ className: "take-margin container" },
+					{ className: "container" },
 					React.createElement("div", { className: "col-sm-3" }),
 					React.createElement(
 						"div",
-						{ className: "text-center col-sm-6" },
-						React.createElement("br", null),
+						{ className: "col-sm-6" },
 						React.createElement("br", null),
 						React.createElement(
 							"form",
 							{ onSubmit: this.validateUser },
-							React.createElement("input", { className: "input-fantasy", ref: "username", type: "text", placeholder: "Username" }),
+							React.createElement("input", { className: "input-style", ref: "username", type: "text", placeholder: "Username" }),
 							React.createElement("br", null),
-							React.createElement("br", null),
-							React.createElement("input", { className: "input-fantasy", ref: "password", type: "password", placeholder: "Password" }),
-							React.createElement("br", null),
+							React.createElement("input", { className: "input-style", ref: "password", type: "password", placeholder: "Password" }),
 							React.createElement("br", null),
 							React.createElement(
 								"button",
-								{ className: "center-block btn-forest-2 btn" },
+								{ className: "center-block btn-change btn-blue" },
 								"Login"
 							)
 						),
@@ -33890,6 +33922,17 @@ module.exports = React.createClass({
 							"span",
 							{ className: "errors" },
 							this.state.errors.invalid
+						),
+						React.createElement("br", null),
+						React.createElement(
+							"label",
+							{ className: "go-white" },
+							"Not a member? ",
+							React.createElement(
+								"a",
+								{ href: "#signUp" },
+								"Sign up here!"
+							)
 						)
 					),
 					React.createElement("div", { className: "col-sm-3" })
@@ -33906,7 +33949,6 @@ module.exports = React.createClass({
 			password: this.refs.password.getDOMNode().value
 		}, {
 			success: function success(data) {
-				console.log(data);
 				that.props.routing.navigate("profile/" + data.attributes.userType, { trigger: true });
 			},
 			error: function error(data, res) {
@@ -33979,11 +34021,18 @@ var profileEl = document.getElementById("profile-things");
 module.exports = React.createClass({
 	displayName: "exports",
 
+	componentWillMount: function componentWillMount() {
+		var that = this;
+		this.props.loggedInUser.on("add", function () {
+			console.log("model was changed");
+		});
+	},
 	getInitialState: function getInitialState() {
 		var that = this;
 		this.props.loggedInUser.me({
 			success: function success(userModel) {
 				console.log("current user session is active");
+				that.forceUpdate();
 			},
 			error: function error(userModel, response) {
 				that.props.routing.navigate("", { trigger: true });
@@ -33997,7 +34046,7 @@ module.exports = React.createClass({
 			case "applicant":
 				shouldDisplay = React.createElement(ForApplicant, { user: this.props.loggedInUser });
 				break;
-			case "organization":
+			case "organizer":
 				shouldDisplay = React.createElement(ForOrg, { user: this.props.loggedInUser });
 				break;
 		}
@@ -34006,24 +34055,18 @@ module.exports = React.createClass({
 		};
 	},
 	render: function render() {
-		console.log(this.props.loggedInUser);
 		return React.createElement(
 			"div",
 			null,
 			React.createElement(
 				"div",
-				{ className: "nav-bar text-center" },
-				"Design Like Mad"
-			),
-			React.createElement(
-				"div",
-				{ className: "text-center container-fluid half-height-2-mod" },
+				{ className: "text-center container-fluid" },
 				React.createElement(
 					"ul",
 					{ className: "nav nav-tabs" },
 					React.createElement(
 						"li",
-						{ className: "go-white med-font", role: "presentation" },
+						{ className: "med-font", role: "presentation" },
 						React.createElement(
 							"a",
 							{ onClick: this.showApplicant },
@@ -34032,7 +34075,7 @@ module.exports = React.createClass({
 					),
 					React.createElement(
 						"li",
-						{ className: "go-white med-font", role: "presentation" },
+						{ className: "med-font", role: "presentation" },
 						React.createElement(
 							"a",
 							{ onClick: this.showNonProfit },
@@ -34041,17 +34084,12 @@ module.exports = React.createClass({
 					),
 					React.createElement(
 						"li",
-						{ className: "go-white med-font", role: "presentation" },
+						{ className: "med-font", role: "presentation" },
 						React.createElement(
 							"a",
 							{ onClick: this.showOrg },
-							"Organizations"
+							"Organizers"
 						)
-					),
-					React.createElement(
-						"button",
-						{ onClick: this.logoutUser, className: "pull-right btn btn-forest-2 forest-mod" },
-						"Logout"
 					)
 				),
 				React.createElement(
@@ -34070,20 +34108,9 @@ module.exports = React.createClass({
 	},
 	showOrg: function showOrg() {
 		this.setState({ displayPage: React.createElement(ForOrg, { user: this.props.loggedInUser }) });
-	},
-	logoutUser: function logoutUser() {
-		var that = this;
-		this.props.loggedInUser.logout({
-			success: function success(userModel) {
-				console.log("user was logged out");
-				that.props.routing.navigate("", { trigger: true });
-			},
-			error: function error(userModel, response) {
-				console.log("problem logging out the user", response.responseJSON);
-			}
-		});
 	}
 });
+//that.forceUpdate();
 
 },{"./ForApplicantComponent":163,"./ForNonProfitComponent":164,"./ForOrgComponent":165,"react":160}],169:[function(require,module,exports){
 "use strict";
@@ -34109,12 +34136,10 @@ module.exports = React.createClass({
 				"div",
 				{ className: "text-center container-fluid" },
 				React.createElement(
-					"span",
-					{ className: "text-left style-heading" },
+					"div",
+					{ className: "text-left center-block style-heading" },
 					"Sign Up"
 				),
-				React.createElement("br", null),
-				React.createElement("br", null),
 				React.createElement(
 					"span",
 					{ className: "errors" },
@@ -34124,67 +34149,72 @@ module.exports = React.createClass({
 					"form",
 					{ onSubmit: this.validateSignUp },
 					React.createElement("input", { className: "input-style", ref: "name", type: "text", placeholder: "Name" }),
-					React.createElement("br", null),
 					React.createElement(
-						"span",
+						"div",
 						{ className: "errors" },
 						this.state.errors.name
 					),
-					React.createElement("br", null),
 					React.createElement("input", { className: "input-style", ref: "email", type: "text", placeholder: "Email" }),
-					React.createElement("br", null),
 					React.createElement(
-						"span",
+						"div",
 						{ className: "errors" },
 						this.state.errors.email
 					),
-					React.createElement("br", null),
 					React.createElement("input", { className: "input-style", ref: "username", type: "text", placeholder: "Username" }),
-					React.createElement("br", null),
 					React.createElement(
-						"span",
+						"div",
 						{ className: "errors" },
 						this.state.errors.username
 					),
-					React.createElement("br", null),
 					React.createElement("input", { className: "input-style", ref: "password", type: "password", placeholder: "Password" }),
-					React.createElement("br", null),
 					React.createElement(
-						"span",
+						"div",
 						{ className: "errors" },
 						this.state.errors.password
 					),
-					React.createElement("br", null),
 					React.createElement("input", { className: "input-style", ref: "confirmPassword", type: "password", placeholder: "Confirm Password" }),
-					React.createElement("br", null),
 					React.createElement(
-						"span",
+						"div",
 						{ className: "errors" },
 						this.state.errors.confirm
 					),
-					React.createElement("br", null),
 					React.createElement(
 						"div",
 						{ className: "center-block text-left sizing" },
-						React.createElement("input", { name: "user-type", value: "applicant", type: "radio" }),
+						React.createElement("input", { id: "radio1", name: "user-type", value: "applicant", type: "radio" }),
 						React.createElement(
 							"label",
-							null,
+							{ htmlFor: "radio1" },
+							React.createElement("span", null)
+						),
+						React.createElement(
+							"span",
+							{ className: "change-label" },
 							"Applicant"
 						),
 						React.createElement("br", null),
-						React.createElement("input", { name: "user-type", value: "non-profit", type: "radio" }),
+						React.createElement("input", { id: "radio2", name: "user-type", value: "non-profit", type: "radio" }),
 						React.createElement(
 							"label",
-							null,
+							{ htmlFor: "radio2" },
+							React.createElement("span", null)
+						),
+						React.createElement(
+							"span",
+							{ className: "change-label" },
 							"Non-Profit"
 						),
 						React.createElement("br", null),
-						React.createElement("input", { name: "user-type", value: "organization", type: "radio" }),
+						React.createElement("input", { id: "radio3", name: "user-type", value: "organizer", type: "radio" }),
 						React.createElement(
 							"label",
-							null,
-							"Organization"
+							{ htmlFor: "radio3" },
+							React.createElement("span", null)
+						),
+						React.createElement(
+							"span",
+							{ className: "change-label" },
+							"Organizer"
 						),
 						React.createElement("br", null)
 					),
@@ -34337,8 +34367,6 @@ var bannerEl = document.getElementById("banner");
 var UserModel = require("./models/UserModel");
 var user = new UserModel();
 
-React.render(React.createElement(Banner, null), bannerEl);
-
 var App = Backbone.Router.extend({
 	routes: {
 		"": "splash",
@@ -34370,6 +34398,8 @@ var App = Backbone.Router.extend({
 });
 
 var myRoutes = new App();
+
+React.render(React.createElement(Banner, { loggedInUser: user, routing: myRoutes }), bannerEl);
 Backbone.history.start();
 
 },{"./components/BannerComponent":162,"./components/ForApplicantComponent":163,"./components/ForNonProfitComponent":164,"./components/ForOrgComponent":165,"./components/LoginPortal":166,"./components/ProfilePage":168,"./components/SignUpPortal":169,"./components/SplashPage":170,"./models/UserModel":173,"backbone":1,"react":160}],172:[function(require,module,exports){
