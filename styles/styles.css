@@ -100,12 +100,12 @@ input[type="radio"]:checked + label span{
 .btn-blue {
 	font-family: 'Roboto Slab', serif;
 	font-size: 18px;
-	height: 50px;
 	background: #28a9e1;
 	color: white;
 	border: 1px solid #28a9e1;
 	border-radius: 3px;
 	border-bottom: 3px solid #0a90bf;
+	padding: 10px;
 }
 .btn-blue:hover{
 	background: #0a90bf
@@ -135,12 +135,10 @@ input[type="radio"]:checked + label span{
 	padding: 20px;
 }
 .btn-change {
-	height: 40px;
 	width: 300px;
 }
 .btn-log {
 	width: 100px;
-	height: 40px;
 }
 .go-white {
 	font-family: 'Roboto Slab', serif;
