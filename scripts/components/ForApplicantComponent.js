@@ -14,15 +14,15 @@ module.exports = React.createClass({
 						<option value="4">An Awesome One</option>
 						<option value="5">I kinda suck</option>
 					</select><br/><br/>
-					<button className="btn-blue btn-change">Upload Your Portfolio</button><br/><br/>
+					<button className="btn-blue btn-change">UPLOAD YOUR PORTFOLIO</button><br/><br/>
 					<label>Select your skill level</label>
 					<div className="text-left set-width">
-						<input id="radio1" name="user-type" value="applicant" type="radio"/><label htmlFor="radio1"><span>
+						<input id="radio1" name="user-type" value="applicant" type="radio"/><label htmlFor="radio1"><span className="change-label">
 						</span></label><span className="change-label">Professional</span><br/>
-						<input id="radio2" name="user-type" value="non-profit" type="radio"/><label htmlFor="radio2"><span>
+						<input id="radio2" name="user-type" value="non-profit" type="radio"/><label htmlFor="radio2"><span className="change-label">
 						</span></label><span className="change-label">Student</span><br/>
 					</div><br/>
-					<button className="btn-blue btn-change" type="submit">Submit</button>
+					<button className="btn-blue btn-change" type="submit">SUBMIT</button>
 				</form>
 			</div>
 		);

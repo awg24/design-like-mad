@@ -17,7 +17,7 @@ var user = new UserModel();
 
 var App = Backbone.Router.extend({
 	routes: {
-		"": "splash",
+		"": "signUp",
 		"login": "login",
 		"signUp": "signUp",
 		"profile/:type":"profile"

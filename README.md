@@ -1,6 +1,6 @@
 # Design Like Mad
 
-Organizations can have an issue when receiving lots of applicants for a specific event where they need to sorted into groups. The problems arised when there's about 70+ people that need to be sorted and get matched in an appropiate group. What this project will accomplish is to automate everything, so that all organizer's job is to rate the applicants/non-profits and click submit to have the sorting done for them.
+Design like mad is an event that is hosted in multiple cities where designers and non-profits can come to together and create amazing designs. The issue that arises for the hosts is the amount of people that apply. It's is often time consuming trying to get these people grouped together into groups where people of varying skill can compliment each other. The current format in which people apply is through a third party website, so my plan for this site is to provide a way for applicants to easily apply and for the hosts to easily rate and rank both applicants and non-profits so that they may be sorted automatically, and not by hand which how it is currently being done. 
 
 
 # Mockup

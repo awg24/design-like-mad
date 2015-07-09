@@ -49,7 +49,7 @@ module.exports = React.createClass({
 						</div>
 					</div>
 					{successMessage}<br/>
-					<button className="btn-blue btn-change" type="submit">Submit</button>
+					<button className="btn-blue btn-change" type="submit">SUBMIT</button>
 				</form>
 			</div>
 		);

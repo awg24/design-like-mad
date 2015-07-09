@@ -10,18 +10,19 @@ module.exports = React.createClass({
 		return (
 			<div>
 				<div className="text-center container-fluid">
+					<div className="text-left center-block style-heading">Login</div>
 					<div className="container">
 						<div className="col-sm-3"></div>
-						<div className="col-sm-6"><br/>
+						<div className="col-sm-6">
 							<form onSubmit={this.validateUser}>
 								<input className="input-style" ref="username" type="text" placeholder="Username" /><br/>
 								<input className="input-style" ref="password" type="password" placeholder="Password" />
 								<br/>
-								<button className="center-block btn-change btn-blue">Login</button>
+								<button className="center-block btn-change btn-blue">LOGIN</button>
 							</form>
 							<span className="errors">{this.state.errors.invalid}</span>
 							<br/>
-							<label className="go-white">Not a member? <a href="#signUp">Sign up here!</a></label>
+							<label>Not a member? <a href="#signUp">Sign up here!</a></label>
 							
 						</div>
 						<div className="col-sm-3"></div>

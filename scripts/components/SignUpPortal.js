@@ -16,7 +16,7 @@ module.exports = React.createClass({
 					<div className="text-left center-block style-heading">Sign Up</div>
 					<span className="errors">{this.state.errors.server}</span>
 						<form onSubmit={this.validateSignUp}>
-							<input className="input-style" ref="name" type="text" placeholder="Name" />
+							<input className="input-style" ref="name" type="text" placeholder="Full Name" />
 							<div className="errors">{this.state.errors.name}</div>
 							<input className="input-style" ref="email" type="text" placeholder="Email" />
 							<div className="errors">{this.state.errors.email}</div>
@@ -27,17 +27,18 @@ module.exports = React.createClass({
 							<input className="input-style" ref="confirmPassword" type="password" placeholder="Confirm Password" />
 							<div className="errors">{this.state.errors.confirm}</div>
 							<div className="center-block text-left sizing">
-								<input id="radio1" name="user-type" value="applicant" type="radio"/><label htmlFor="radio1"><span>
-								</span></label><span className="change-label">Applicant</span><br/>
-								<input id="radio2" name="user-type" value="non-profit" type="radio"/><label htmlFor="radio2"><span>
-								</span></label><span className="change-label">Non-Profit</span><br/>
-								<input id="radio3" name="user-type" value="organizer" type="radio"/><label htmlFor="radio3"><span>
-								</span></label><span className="change-label">Organizer</span><br/>
+								<input id="radio1" name="user-type" value="applicant" type="radio"/><label htmlFor="radio1"><span className="change-label">
+								</span></label><span>Applicant</span><br/>
+								<input id="radio2" name="user-type" value="non-profit" type="radio"/><label htmlFor="radio2"><span className="change-label">
+								</span></label><span>Non-Profit</span><br/>
+								<input id="radio3" name="user-type" value="organizer" type="radio"/><label htmlFor="radio3"><span className="change-label">
+								</span></label><span>Organizer</span><br/>
 							</div>
 							<span className="errors">{this.state.errors.userType}</span>
-							<button type="submit" className="center-block btn-change btn-blue">Sign Up</button>
+							<button type="submit" className="center-block btn-change btn-blue">SIGN UP</button>
 						</form>
-						<label className="go-white">Already a member? <a href="#login">Login here!</a></label>
+						<br/>
+						<label>Already a member? <a href="#login">Login here!</a></label>
 				</div>
 			</div>
 		);

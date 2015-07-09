@@ -9,7 +9,7 @@ module.exports = React.createClass({
 	render: function(){
 		var logoutBtn = [];
 		if(this.props.loggedInUser.attributes.username){
-			logoutBtn.push(<button key="1" onClick={this.logoutUser} className="pull-right btn-blue btn-log btn-small">Logout</button>);
+			logoutBtn.push(<a key="1" className="pull-right" onClick={this.logoutUser}>LOGOUT</a>);
 		} 
 		return (
 			<div>
