@@ -3478,6 +3478,8 @@ module.exports = function(parseSettings) {
 			headers['X-Parse-Session-Token'] = sessionToken;
 		}
 
+		console.log('getHeaders', headers);
+
 		return headers;
 	}
 
@@ -3514,9 +3516,6 @@ module.exports = function(parseSettings) {
 		},
 		logout: function(options) {
 			var self = this;
-			sessionToken = null;
-			this.clear();
-			window.localStorage.removeItem('sessionToken');
 			options = options || {};
 			Backbone.$.ajax({
 				//data
@@ -3536,6 +3535,9 @@ module.exports = function(parseSettings) {
 				self.set(data);
 				if(options.success) {
 					options.success(self);
+					sessionToken = null;
+					self.clear();
+					window.localStorage.removeItem('sessionToken');
 				}
 			})
 			.error(function(response) {
@@ -3636,23 +3638,7 @@ module.exports = function(parseSettings) {
 			headers: getHeaders()
 		};
 
-		request = _.extend(options, request);
-		var error = request.error;
-
-		request.error = function(err) {
-			// Invalid session token
-			if(err.responseJSON.code === 209) {
-				sessionToken = null;
-				window.localStorage.removeItem('sessionToken');
-				request.headers = getHeaders();
-				$.ajax(request);
-			}
-			else {
-				error(err);
-			}
-		};
-
-		return $.ajax(request);
+		return $.ajax(_.extend(options, request));
 	};
 
 	return Backbone;
@@ -32774,7 +32760,7 @@ module.exports = require('./lib/React');
 
     'use strict';
 
-    validator = { version: '3.41.1' };
+    validator = { version: '3.40.1' };
 
     var emailUser = /^((([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~])+(\.([a-z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e])|(\\[\x01-\x09\x0b\x0c\x0d-\x7f])))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))$/i;
 
@@ -32826,8 +32812,7 @@ module.exports = require('./lib/React');
       'el-GR': /^(\+30)?((2\d{9})|(69\d{8}))$/,
       'en-GB': /^(\+?44|0)7\d{9}$/,
       'en-US': /^(\+?1)?[2-9]\d{2}[2-9](?!11)\d{6}$/,
-      'en-ZM': /^(\+26)?09[567]\d{7}$/,
-      'ru-RU': /^(\+?7|8)?9\d{9}$/
+      'en-ZM': /^(\+26)?09[567]\d{7}$/
     };
 
     validator.extend = function (name, fn) {
@@ -33016,7 +33001,7 @@ module.exports = require('./lib/React');
         } else if (version === '6') {
             var blocks = str.split(':');
             var foundOmissionBlock = false; // marker to indicate ::
-
+            
             // At least some OS accept the last 32 bits of an IPv6 address
             // (i.e. 2 of the blocks) in IPv4 notation, and RFC 3493 says
             // that '::ffff:a.b.c.d' is valid for IPv4-mapped IPv6 addresses,
