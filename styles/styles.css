@@ -3,7 +3,7 @@ iframe {
 	height: 500px;
 }
 label {
-
+	text-decoration: none;
 	margin-right: 10px;
 	margin-left: 10px;
 }
@@ -17,6 +17,7 @@ body {
 	background-repeat: no-repeat;
 	background-size: cover;
 	color: white;
+	text-decoration: none;
 	font-family: 'Raleway', sans-serif;
 	line-height: 1.6;
 }
@@ -36,6 +37,7 @@ input[type="radio"] + label span {
 }
 input {
 	color: black;
+	font-size:16px;
 }
 textarea {
 	color: black;
@@ -45,7 +47,7 @@ input[type="radio"] + label span {
 	border: 2px solid white;
 }
 .change-label {
-	margin-bottom: -4px;
+	margin-bottom: -3px;
 }
 input[type="radio"]:checked + label span{
 	background-color: white;
@@ -97,12 +99,16 @@ input[type="radio"]:checked + label span{
 }
 .btn-blue {
 	font-family: 'Roboto Slab', serif;
+	font-size: 18px;
 	height: 50px;
 	background: #28a9e1;
 	color: white;
 	border: 1px solid #28a9e1;
 	border-radius: 3px;
 	border-bottom: 3px solid #0a90bf;
+}
+.btn-blue:hover{
+	background: #0a90bf
 }
 .btn-forest-2 {
 	height: 35px;
@@ -120,10 +126,13 @@ input[type="radio"]:checked + label span{
 	margin-bottom: 10px;
 	height: 40px;
 	width: 300px;
+	padding-left: 15px;
+	padding-right: 15px;
 }
 .sizing {
 	width: 300px;
 	font-size: 15px;
+	padding: 20px;
 }
 .btn-change {
 	height: 40px;
@@ -139,6 +148,10 @@ input[type="radio"]:checked + label span{
 }
 a {
 	color: white;
+}
+a:hover{
+	text-decoration: none;
+	color: #0a90bf;
 }
 .errors {
 	color: red;
@@ -171,6 +184,9 @@ a {
 	margin-left: auto;
 	margin-right: auto;
 }
+.add-padding {
+	padding: 10px;
+}
 .style-heading {
 	font-size: 20px;
 	width:300px;
@@ -186,11 +202,10 @@ select {
 	border-radius: 3px;
 	border-bottom: 3px solid #0a90bf;
 }
-@media(min-width:1200px){
-	.change-font {
-		font-size:25px;
-	}
+.change-font {
+	font-size:28px;
 }
+
 @media(max-width:1010px){
 	body {
 		background: #EFEFEF;
@@ -208,6 +223,10 @@ select {
 		background-color:transparent;
 		border: 2px solid #666666;
 	}
+	input[type="radio"]:checked + label span{
+	background-color: #666666;
+	border: 2px solid #666666;
+}
 }
 @media(max-width:1010px){
 	a {
@@ -219,7 +238,7 @@ select {
 		padding:20px;
 	}
 	.add-bottom-margin {
-		border-bottom: 3px solid white;
+		border-bottom: 1px solid white;
 	}
 }
 @media(max-width:595px){

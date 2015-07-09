@@ -33489,9 +33489,9 @@ module.exports = React.createClass({
 		var logoutBtn = [];
 		if (this.props.loggedInUser.attributes.username) {
 			logoutBtn.push(React.createElement(
-				"button",
-				{ key: "1", onClick: this.logoutUser, className: "pull-right btn-blue btn-log btn-small" },
-				"Logout"
+				"a",
+				{ key: "1", className: "pull-right", onClick: this.logoutUser },
+				"LOGOUT"
 			));
 		}
 		return React.createElement(
@@ -33599,7 +33599,7 @@ module.exports = React.createClass({
 				React.createElement(
 					"button",
 					{ className: "btn-blue btn-change" },
-					"Upload Your Portfolio"
+					"UPLOAD YOUR PORTFOLIO"
 				),
 				React.createElement("br", null),
 				React.createElement("br", null),
@@ -33615,7 +33615,7 @@ module.exports = React.createClass({
 					React.createElement(
 						"label",
 						{ htmlFor: "radio1" },
-						React.createElement("span", null)
+						React.createElement("span", { className: "change-label" })
 					),
 					React.createElement(
 						"span",
@@ -33627,7 +33627,7 @@ module.exports = React.createClass({
 					React.createElement(
 						"label",
 						{ htmlFor: "radio2" },
-						React.createElement("span", null)
+						React.createElement("span", { className: "change-label" })
 					),
 					React.createElement(
 						"span",
@@ -33640,7 +33640,7 @@ module.exports = React.createClass({
 				React.createElement(
 					"button",
 					{ className: "btn-blue btn-change", type: "submit" },
-					"Submit"
+					"SUBMIT"
 				)
 			)
 		);
@@ -33804,7 +33804,7 @@ module.exports = React.createClass({
 				React.createElement(
 					"button",
 					{ className: "btn-blue btn-change", type: "submit" },
-					"Submit"
+					"SUBMIT"
 				)
 			)
 		);
@@ -33899,12 +33899,16 @@ module.exports = React.createClass({
 				{ className: "text-center container-fluid" },
 				React.createElement(
 					"div",
+					{ className: "text-left center-block style-heading" },
+					"Login"
+				),
+				React.createElement(
+					"div",
 					{ className: "container" },
 					React.createElement("div", { className: "col-sm-3" }),
 					React.createElement(
 						"div",
 						{ className: "col-sm-6" },
-						React.createElement("br", null),
 						React.createElement(
 							"form",
 							{ onSubmit: this.validateUser },
@@ -33915,7 +33919,7 @@ module.exports = React.createClass({
 							React.createElement(
 								"button",
 								{ className: "center-block btn-change btn-blue" },
-								"Login"
+								"LOGIN"
 							)
 						),
 						React.createElement(
@@ -33926,7 +33930,7 @@ module.exports = React.createClass({
 						React.createElement("br", null),
 						React.createElement(
 							"label",
-							{ className: "go-white" },
+							null,
 							"Not a member? ",
 							React.createElement(
 								"a",
@@ -34148,7 +34152,7 @@ module.exports = React.createClass({
 				React.createElement(
 					"form",
 					{ onSubmit: this.validateSignUp },
-					React.createElement("input", { className: "input-style", ref: "name", type: "text", placeholder: "Name" }),
+					React.createElement("input", { className: "input-style", ref: "name", type: "text", placeholder: "Full Name" }),
 					React.createElement(
 						"div",
 						{ className: "errors" },
@@ -34185,11 +34189,11 @@ module.exports = React.createClass({
 						React.createElement(
 							"label",
 							{ htmlFor: "radio1" },
-							React.createElement("span", null)
+							React.createElement("span", { className: "change-label" })
 						),
 						React.createElement(
 							"span",
-							{ className: "change-label" },
+							null,
 							"Applicant"
 						),
 						React.createElement("br", null),
@@ -34197,11 +34201,11 @@ module.exports = React.createClass({
 						React.createElement(
 							"label",
 							{ htmlFor: "radio2" },
-							React.createElement("span", null)
+							React.createElement("span", { className: "change-label" })
 						),
 						React.createElement(
 							"span",
-							{ className: "change-label" },
+							null,
 							"Non-Profit"
 						),
 						React.createElement("br", null),
@@ -34209,11 +34213,11 @@ module.exports = React.createClass({
 						React.createElement(
 							"label",
 							{ htmlFor: "radio3" },
-							React.createElement("span", null)
+							React.createElement("span", { className: "change-label" })
 						),
 						React.createElement(
 							"span",
-							{ className: "change-label" },
+							null,
 							"Organizer"
 						),
 						React.createElement("br", null)
@@ -34226,12 +34230,13 @@ module.exports = React.createClass({
 					React.createElement(
 						"button",
 						{ type: "submit", className: "center-block btn-change btn-blue" },
-						"Sign Up"
+						"SIGN UP"
 					)
 				),
+				React.createElement("br", null),
 				React.createElement(
 					"label",
-					{ className: "go-white" },
+					null,
 					"Already a member? ",
 					React.createElement(
 						"a",
@@ -34369,7 +34374,7 @@ var user = new UserModel();
 
 var App = Backbone.Router.extend({
 	routes: {
-		"": "splash",
+		"": "signUp",
 		"login": "login",
 		"signUp": "signUp",
 		"profile/:type": "profile"
