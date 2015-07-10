@@ -40,7 +40,7 @@ module.exports = React.createClass({
 				password: this.refs.password.getDOMNode().value
 			},{
 				success:function(data){
-					that.props.routing.navigate("profile/"+data.attributes.userType, {trigger: true});
+					that.props.routing.navigate("application/"+data.attributes.userType, {trigger: true});
 				},
 				error: function(data, res){
 					console.log(res);

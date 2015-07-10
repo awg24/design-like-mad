@@ -31,8 +31,6 @@ module.exports = React.createClass({
 								</span></label><span>Applicant</span><br/>
 								<input id="radio2" name="user-type" value="non-profit" type="radio"/><label htmlFor="radio2"><span className="change-label">
 								</span></label><span>Non-Profit</span><br/>
-								<input id="radio3" name="user-type" value="organizer" type="radio"/><label htmlFor="radio3"><span className="change-label">
-								</span></label><span>Organizer</span><br/>
 							</div>
 							<span className="errors">{this.state.errors.userType}</span>
 							<button type="submit" className="center-block btn-change btn-blue">SIGN UP</button>
@@ -86,7 +84,7 @@ module.exports = React.createClass({
 							}, {
 							    success: function(userModel) {
 							        console.log('user was logged in');
-							        that.props.routing.navigate("profile/"+userType,{trigger: true});
+							        that.props.routing.navigate("application/"+userType,{trigger: true});
 							    },
 							    error: function(userModel, response) {
 							        console.log('user was not logged in', response.responseJSON);

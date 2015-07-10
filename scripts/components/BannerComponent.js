@@ -1,11 +1,6 @@
 var React = require("react");
 
 module.exports = React.createClass({
-	componentWillMount: function(){
-		this.props.loggedInUser.on("change", function(){
-			this.forceUpdate();
-		}, this);
-	},
 	render: function(){
 		var logoutBtn = [];
 		if(this.props.loggedInUser.attributes.username){

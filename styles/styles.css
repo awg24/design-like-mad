@@ -7,15 +7,60 @@ label {
 	margin-right: 10px;
 	margin-left: 10px;
 }
+.go-blue {
+	background: #0a90bf;
+	padding: 10px;
+}
+.go-light-blue {
+	background: #28a9e1;
+	padding: 10px;
+}
+.inline {
+	display: inline-block;
+}
+.side-margin {
+	margin-right: 100px;
+}
+.give-border {
+	background: white;
+	border: 1px solid #666666;
+}
+.bottom-border {
+	border-bottom: 1px solid #666666;
+	margin-bottom: 10px;
+}
+.small-width {
+	width: 100px;
+}
+.padding-top {
+	padding-top: 8px;
+	margin-bottom: 10px;
+}
+.clear {
+	clear: left;
+}
+.side-margin {
+	margin-right: 20px;
+}
+.side-padding {
+	padding-right: 10px;
+	padding-left: 30px;
+}
+.side-padding-5 {
+	padding-right: 7px;
+	padding-left: 5px;
+}
 img {
 	display: block;
 	margin-right: auto;
 	margin-left: auto;
+	height: 80px;
+	width: 50px
+}
+.give-top-margin {
+	margin-top: 15px;
 }
 body {
-	background: #EFEFEF url(../assets/bg-image.jpg);
-	background-repeat: no-repeat;
-	background-size: cover;
 	color: white;
 	text-decoration: none;
 	font-family: 'Raleway', sans-serif;
@@ -44,7 +89,7 @@ textarea {
 }
 input[type="radio"] + label span {
 	background-color:transparent;
-	border: 2px solid white;
+	border: 2px solid #666666;
 }
 .change-label {
 	margin-bottom: -3px;
@@ -59,6 +104,9 @@ input[type="radio"]:checked + label span{
 .add-bottom-margin {
 	margin-top: 20px;
 	margin-bottom: 20px;
+}
+.bottom-margin {
+	margin-bottom: 15px;
 }
 .add-line {
 	height: 60px;
@@ -194,25 +242,79 @@ select {
   	font-family: 'Roboto Slab', serif;
 	height: 35px;
 	width: 200px;
-	background: #28a9e1;
-	color: white;
-	border: 1px solid #28a9e1;
+	color: #666666;
 	border-radius: 3px;
-	border-bottom: 3px solid #0a90bf;
 }
 .change-font {
 	font-size:28px;
 }
+.add-height {
+	height: 150px;
+}
+body {
+	background: #EFEFEF;
+	color: #666666; 
+}
+.set-gray {
+	color: #666666;
+}
+.axe-padding {
+	padding-left: 9px;
+}
+.row {
+	width: 300px;
+}
+.div-width {
+	width: 300px;
+	margin-right: auto;
+	margin-left: auto;
+	padding: 10px;
+}
+.div-bottom-margin {
+	border-bottom: 1px solid #666666;
+	width: 300px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 15px;
+}
 
-@media(max-width:1010px){
-	body {
-		background: #EFEFEF;
-		color: #666666; 
+.div-top-bottom {
+	border-bottom: 1px solid #666666;
+	border-top: 1px solid #666666;
+	width: 300px;
+	padding: 10px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 15px;
+}
+input[type="radio"]:checked + label span{
+		background-color: #666666;
+		border: 2px solid #666666;
+}
+
+@media(max-width:500px){
+	.small-img {
+		height: 70px;
+		width: 45px;
+		margin-bottom: 10px;
+		margin-top: 10px;
 	}
+	.set-div-width {
+		font-size: 28px;
+	}
+}
+@media(min-width:500px){
+	.set-div-width {
+		margin-left: auto;
+		margin-right: auto;
+		color: #666666;
+		font-size: 28px;
+	}
+
+}
+@media(max-width:1010px){
+	
 	#banner {
-		background: #EFEFEF url(../assets/bg-image.jpg);
-		background-repeat: no-repeat;
-		background-size: cover;
 		color: white;
 		font-family: 'Raleway', sans-serif;
 		line-height: 1.6;
@@ -222,9 +324,9 @@ select {
 		border: 2px solid #666666;
 	}
 	input[type="radio"]:checked + label span{
-	background-color: #666666;
-	border: 2px solid #666666;
-}
+		background-color: #666666;
+		border: 2px solid #666666;
+	}
 }
 @media(max-width:1010px){
 	a {
@@ -235,13 +337,8 @@ select {
 	.add-padding {
 		padding:20px;
 	}
-	.add-bottom-margin {
-		border-bottom: 1px solid white;
-	}
 }
 @media(max-width:595px){
-	.med-font {
-		font-size: 15px;
-	}
+
 }
 
