@@ -9,7 +9,7 @@ module.exports = React.createClass({
 		userCollection.fetch({
 			query: {userType:"applicant"},
 			success: function(data){
-				that.setState({applicants: data});
+				that.setState({applicants: data, pdfFile:data.models[0].attributes.portfolioUrl});
 			},
 			error: function(err){
 				console.log(err);
@@ -19,7 +19,7 @@ module.exports = React.createClass({
 	getInitialState: function(){
 		return {
 			applicants: null,
-			pdfFile: "Click on a applicant to see their portfolio!"
+			pdfFile: "../../assets/logo.png"
 		};
 	},
 	render: function(){
