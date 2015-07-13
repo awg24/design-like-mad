@@ -3478,8 +3478,6 @@ module.exports = function(parseSettings) {
 			headers['X-Parse-Session-Token'] = sessionToken;
 		}
 
-		console.log('getHeaders', headers);
-
 		return headers;
 	}
 
@@ -3516,6 +3514,9 @@ module.exports = function(parseSettings) {
 		},
 		logout: function(options) {
 			var self = this;
+			sessionToken = null;
+			this.clear();
+			window.localStorage.removeItem('sessionToken');
 			options = options || {};
 			Backbone.$.ajax({
 				//data
@@ -3535,9 +3536,6 @@ module.exports = function(parseSettings) {
 				self.set(data);
 				if(options.success) {
 					options.success(self);
-					sessionToken = null;
-					self.clear();
-					window.localStorage.removeItem('sessionToken');
 				}
 			})
 			.error(function(response) {
@@ -3638,7 +3636,23 @@ module.exports = function(parseSettings) {
 			headers: getHeaders()
 		};
 
-		return $.ajax(_.extend(options, request));
+		request = _.extend(options, request);
+		var error = request.error;
+
+		request.error = function(err) {
+			// Invalid session token
+			if(err.responseJSON.code === 209) {
+				sessionToken = null;
+				window.localStorage.removeItem('sessionToken');
+				request.headers = getHeaders();
+				$.ajax(request);
+			}
+			else {
+				error(err);
+			}
+		};
+
+		return $.ajax(request);
 	};
 
 	return Backbone;
