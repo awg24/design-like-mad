@@ -9,11 +9,12 @@ var _ = require("backbone/node_modules/underscore");
 
 module.exports = Backbone.Model.extend({
 	defaults: {
+		id: null,
 		name: null,
 		email: null,
 		username: null,
 		password: null,
-		portfolioURL: null,
+		portfolioUrl: null,
 		userType: null,
 		desginerType: null,
 		skillRating: null
@@ -49,7 +50,7 @@ module.exports = Backbone.Model.extend({
 		}
 
 	},
-	idAtrribute: "objectId",
+	idAttribute: "objectId",
 	parseClassName: "_User",
 	isUser: true
 });

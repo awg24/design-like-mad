@@ -1,5 +1,7 @@
 var React = require("react");
 var AppBanner = require("./AppBanner");
+var fileKey = require("../../node_modules/config/config");
+filepicker.setKey(fileKey.key);
 var designer;
 module.exports = React.createClass({
 	getInitialState: function(){
@@ -11,7 +13,7 @@ module.exports = React.createClass({
 							Students can user works from school projects
 						</div>
 						<div>
-							<button className="btn-blue bottom-margin">UPLOAD WORK SAMPLES</button>
+							<button className="btn-blue bottom-margin" onClick={this.uploadFile}>UPLOAD WORK SAMPLES</button>
 						</div>
 					</div>
 					);
@@ -83,5 +85,52 @@ module.exports = React.createClass({
 		} else {
 			this.setState({appType: designer});
 		}
+	},
+	uploadFile: function(){
+		var that = this;
+		console.log(this.props.loggedInUser);
+		var user = this.props.loggedInUser;
+		filepicker.pickAndStore({
+			openTo: '~/Documents/'
+			},{},
+			function(Blobs){
+				console.log("Blobs:", Blobs[0].url);
+				user.save({portfolioUrl:Blobs[0].url}, {
+					success: function(res){
+						console.log(res);
+					},
+					error: function(err){
+						console.log(err);
+					}
+				});
+				console.log(that.props.loggedInUser);
+			},
+			function(error){
+				console.log("error:", error);
+				console.log(JSON.stringify(error));
+			},
+			function(progress){
+				console.log("progress:", progress);
+				console.log(JSON.stringify(progress));
+			}
+		);
+		//user.save({portfolioUrl: "http:test/ha"});
 	}
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
