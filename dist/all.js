@@ -3514,9 +3514,6 @@ module.exports = function(parseSettings) {
 		},
 		logout: function(options) {
 			var self = this;
-			sessionToken = null;
-			this.clear();
-			window.localStorage.removeItem('sessionToken');
 			options = options || {};
 			Backbone.$.ajax({
 				//data
@@ -3537,6 +3534,9 @@ module.exports = function(parseSettings) {
 				if(options.success) {
 					options.success(self);
 				}
+				sessionToken = null;
+				self.clear();
+				window.localStorage.removeItem('sessionToken');
 			})
 			.error(function(response) {
 				if(options.error) {
@@ -33501,6 +33501,24 @@ var Backbone = require('backparse')({
 
 var _ = require('backbone/node_modules/underscore');
 
+var Relation = require('../models/UserOrganizationRelationModel');
+
+module.exports = Backbone.Collection.extend({
+    model: Relation,
+    parseClassName: 'UserOrganizerRelation'
+});
+
+},{"../models/UserOrganizationRelationModel":177,"backbone/node_modules/underscore":2,"backparse":3}],164:[function(require,module,exports){
+'use strict';
+
+var Backbone = require('backparse')({
+    appId: 'S6Y7ni0haUcubEj98BcjWPl3lDPaYlVewgl53Prj',
+    apiKey: 'E6IQ4vAZa9rfubgL3lpRvm5RXPAmcRm3rAhiWC69',
+    apiVersion: 1
+});
+
+var _ = require('backbone/node_modules/underscore');
+
 var User = require('../models/UserModel');
 
 module.exports = Backbone.Collection.extend({
@@ -33508,7 +33526,7 @@ module.exports = Backbone.Collection.extend({
     parseClassName: '_User'
 });
 
-},{"../models/UserModel":174,"backbone/node_modules/underscore":2,"backparse":3}],164:[function(require,module,exports){
+},{"../models/UserModel":176,"backbone/node_modules/underscore":2,"backparse":3}],165:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -33535,7 +33553,7 @@ module.exports = React.createClass({
 				React.createElement("img", { className: "small-img", src: "../../assets/logo.png" }),
 				React.createElement(
 					"label",
-					{ className: "add-padding" },
+					{ id: "banner-title", className: "add-padding" },
 					"DESIGN LIKE MAD DESIGNERS/DEVELOPERS"
 				)
 			)
@@ -33555,7 +33573,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"react":161}],165:[function(require,module,exports){
+},{"react":161}],166:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -33774,7 +33792,24 @@ module.exports = React.createClass({
 	}
 });
 
-},{"../../node_modules/config/config":5,"./AppBanner":164,"react":161}],166:[function(require,module,exports){
+},{"../../node_modules/config/config":5,"./AppBanner":165,"react":161}],167:[function(require,module,exports){
+"use strict";
+
+var React = require("react");
+
+module.exports = React.createClass({
+	displayName: "exports",
+
+	render: function render() {
+		return React.createElement(
+			"div",
+			null,
+			"Im averaging stuff!"
+		);
+	}
+});
+
+},{"react":161}],168:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -33834,7 +33869,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"react":161}],167:[function(require,module,exports){
+},{"react":161}],169:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -33921,7 +33956,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"react":161}],168:[function(require,module,exports){
+},{"react":161}],170:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -33938,7 +33973,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"react":161}],169:[function(require,module,exports){
+},{"react":161}],171:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34156,13 +34191,16 @@ module.exports = React.createClass({
 	}
 });
 
-},{"react":161}],170:[function(require,module,exports){
+},{"react":161}],172:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
 var PDF = require("./PDFViewer");
 var UserCollection = require("../collections/UserCollection");
+var RelationCollection = require("../collections/RelationCollection");
 var userCollection = new UserCollection();
+var exisitingRelations = new RelationCollection();
+var Relation = require("../models/UserOrganizationRelationModel");
 var applicants;
 module.exports = React.createClass({
 	displayName: "exports",
@@ -34186,11 +34224,9 @@ module.exports = React.createClass({
 		};
 	},
 	render: function render() {
-		console.log(this.state.applicants);
 		var that = this;
 		if (this.state.applicants) {
 			var toShow = this.state.applicants.map(function (models) {
-				console.log(models);
 				return React.createElement(
 					"div",
 					{ onClick: that.showPDF, key: models.cid },
@@ -34201,35 +34237,35 @@ module.exports = React.createClass({
 					),
 					React.createElement(
 						"select",
-						{ className: "small-width pull-right" },
+						{ onChange: that.rate, ref: "rating", className: "selecting small-width pull-right" },
 						React.createElement(
 							"option",
-							null,
+							{ value: "" },
 							"Unrated"
 						),
 						React.createElement(
 							"option",
-							null,
+							{ value: "5" },
 							"5"
 						),
 						React.createElement(
 							"option",
-							null,
+							{ value: "4" },
 							"4"
 						),
 						React.createElement(
 							"option",
-							null,
+							{ value: "3" },
 							"3"
 						),
 						React.createElement(
 							"option",
-							null,
+							{ value: "2" },
 							"2"
 						),
 						React.createElement(
 							"option",
-							null,
+							{ value: "1" },
 							"1"
 						)
 					)
@@ -34273,26 +34309,58 @@ module.exports = React.createClass({
 			),
 			React.createElement(
 				"button",
-				{ className: "btn-blue" },
+				{ onClick: this.goToAveraging, className: "btn-blue" },
 				"SUBMIT"
 			)
 		);
 	},
 	showPDF: function showPDF(event) {
-		console.log(event.target.innerHTML, ":clicked this");
+		if (!event.target.type) {
+			var that = this;
+			var userClicked = new UserCollection();
+			userClicked.fetch({
+				query: { username: event.target.innerHTML },
+				success: function success(data) {
+					console.log(data.models[0].attributes.portfolioUrl);
+					that.setState({ pdfFile: data.models[0].attributes.portfolioUrl });
+				}
+			});
+		}
+	},
+	goToAveraging: function goToAveraging() {
+		this.props.routing.navigate("average", { trigger: true });
+	},
+	rate: function rate(event) {
 		var that = this;
-		var userClicked = new UserCollection();
-		userClicked.fetch({
-			query: { username: event.target.innerHTML },
+		var applicant = event.target.parentNode.childNodes[0].innerHTML;
+		var rating = event.target.value;
+		console.log(applicant, "'s rating is", rating);
+		var applicantRated = new UserCollection();
+		applicantRated.fetch({
+			query: { username: applicant },
 			success: function success(data) {
-				console.log(data.models[0].attributes.portfolioUrl);
-				that.setState({ pdfFile: data.models[0].attributes.portfolioUrl });
+				var hasBeenRated = new RelationCollection();
+				var relation = new Relation({
+					ApplicantId: data.models[0].id,
+					username: applicant,
+					OrganizerId: that.props.loggedInUser.id,
+					rating: rating
+				});
+				hasBeenRated.fetch({
+					query: { ApplicantId: data.models[0].id, OrganizerId: that.props.loggedInUser.id },
+					success: function success(data) {
+						if (data.length !== 0) {
+							relation.set({ objectId: data.at(0).id });
+						}
+						relation.save();
+					}
+				});
 			}
 		});
 	}
 });
 
-},{"../collections/UserCollection":163,"./PDFViewer":171,"react":161}],171:[function(require,module,exports){
+},{"../collections/RelationCollection":163,"../collections/UserCollection":164,"../models/UserOrganizationRelationModel":177,"./PDFViewer":173,"react":161}],173:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34341,7 +34409,7 @@ module.exports = React.createClass({
 // 	// });
 // }
 
-},{"react":161}],172:[function(require,module,exports){
+},{"react":161}],174:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34522,7 +34590,7 @@ module.exports = React.createClass({
 	}
 });
 
-},{"./BannerComponent":166,"jquery":6,"react":161}],173:[function(require,module,exports){
+},{"./BannerComponent":168,"jquery":6,"react":161}],175:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -34533,6 +34601,7 @@ var SignUpPortal = require("./components/SignUpPortal");
 var ApplicationPage = require("./components/ApplicationPage");
 var NonProfitApp = require("./components/NonProfitApplication");
 var OrgPage = require("./components/OrganizationPage");
+var AveragePage = require("./components/AveragePage");
 var NoPremission = require("./components/NoPremission");
 var Banner = require("./components/BannerComponent");
 
@@ -34547,12 +34616,14 @@ var App = Backbone.Router.extend({
 		"": "signUp",
 		"login": "login",
 		"signUp": "signUp",
-		"application/:type": "application"
+		"application/:type": "application",
+		"average": "averaging"
 	},
 	login: function login() {
 		document.body.style.background = "#EFEFEF url(../assets/bg-image.jpg)";
 		document.body.style.backgroundRepeat = "no-repeat";
 		document.body.style.backgroundSize = "cover";
+		document.body.style.color = "white";
 		React.render(React.createElement(Banner, { loggedInUser: user, routing: myRoutes }), bannerEl);
 		React.render(React.createElement(LoginPortal, { loggingIn: user, routing: this }), containerEl);
 	},
@@ -34560,7 +34631,12 @@ var App = Backbone.Router.extend({
 		document.body.style.background = "#EFEFEF url(../assets/bg-image.jpg)";
 		document.body.style.backgroundRepeat = "no-repeat";
 		document.body.style.backgroundSize = "cover";
+		document.body.style.color = "white";
 		React.render(React.createElement(SignUpPortal, { routing: this, user: user }), containerEl);
+	},
+	averaging: function averaging() {
+		React.render(React.createElement(AppBanner, { loggedInUser: user, routing: this }), document.getElementById("banner"));
+		React.render(React.createElement(AveragePage, { routing: this, user: user }), containerEl);
 	},
 	application: function application(type) {
 		var that = this;
@@ -34571,6 +34647,7 @@ var App = Backbone.Router.extend({
 			},
 			success: function success(model) {
 				document.body.style.background = "#EFEFEF";
+				document.body.style.color = "#666666";
 				React.render(React.createElement(AppBanner, { loggedInUser: user, routing: that }), document.getElementById("banner"));
 				console.log(user);
 				if (type === "non-profit" && user.attributes.userType === type) {
@@ -34592,7 +34669,7 @@ var myRoutes = new App();
 React.render(React.createElement(Banner, { loggedInUser: user, routing: myRoutes }), bannerEl);
 Backbone.history.start();
 
-},{"./components/AppBanner":164,"./components/ApplicationPage":165,"./components/BannerComponent":166,"./components/LoginPortal":167,"./components/NoPremission":168,"./components/NonProfitApplication":169,"./components/OrganizationPage":170,"./components/SignUpPortal":172,"./models/UserModel":174,"backbone":1,"react":161}],174:[function(require,module,exports){
+},{"./components/AppBanner":165,"./components/ApplicationPage":166,"./components/AveragePage":167,"./components/BannerComponent":168,"./components/LoginPortal":169,"./components/NoPremission":170,"./components/NonProfitApplication":171,"./components/OrganizationPage":172,"./components/SignUpPortal":174,"./models/UserModel":176,"backbone":1,"react":161}],176:[function(require,module,exports){
 'use strict';
 
 var Backbone = require('backparse')({
@@ -34650,7 +34727,29 @@ module.exports = Backbone.Model.extend({
 	isUser: true
 });
 
-},{"backbone/node_modules/underscore":2,"backparse":3,"validator":162}]},{},[173])
+},{"backbone/node_modules/underscore":2,"backparse":3,"validator":162}],177:[function(require,module,exports){
+'use strict';
+
+var Backbone = require('backparse')({
+	appId: 'S6Y7ni0haUcubEj98BcjWPl3lDPaYlVewgl53Prj',
+	apiKey: 'E6IQ4vAZa9rfubgL3lpRvm5RXPAmcRm3rAhiWC69',
+	apiVersion: 1
+});
+var validator = require('validator');
+var _ = require('backbone/node_modules/underscore');
+
+module.exports = Backbone.Model.extend({
+	defaults: {
+		ApplicantId: null,
+		username: null,
+		OrganizerId: null,
+		rating: null
+	},
+	idAttribute: 'objectId',
+	parseClassName: 'UserOrganizerRelation'
+});
+
+},{"backbone/node_modules/underscore":2,"backparse":3,"validator":162}]},{},[175])
 
 
 //# sourceMappingURL=all.js.map

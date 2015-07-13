@@ -6,6 +6,7 @@ var SignUpPortal = require("./components/SignUpPortal");
 var ApplicationPage = require("./components/ApplicationPage");
 var NonProfitApp = require("./components/NonProfitApplication");
 var OrgPage = require("./components/OrganizationPage");
+var AveragePage = require("./components/AveragePage");
 var NoPremission = require("./components/NoPremission");
 var Banner = require("./components/BannerComponent");
 
@@ -21,12 +22,14 @@ var App = Backbone.Router.extend({
 		"": "signUp",
 		"login": "login",
 		"signUp": "signUp",
-		"application/:type":"application"
+		"application/:type":"application",
+		"average":"averaging"
 	},
 	login: function(){
 		document.body.style.background = "#EFEFEF url(../assets/bg-image.jpg)"
 		document.body.style.backgroundRepeat = "no-repeat";
 		document.body.style.backgroundSize = "cover";
+		document.body.style.color = "white";
 		React.render(<Banner loggedInUser={user} routing={myRoutes} />, bannerEl);
 		React.render(<LoginPortal loggingIn={user} routing={this} />, containerEl);
 	},
@@ -34,7 +37,12 @@ var App = Backbone.Router.extend({
 		document.body.style.background = "#EFEFEF url(../assets/bg-image.jpg)"
 		document.body.style.backgroundRepeat = "no-repeat";
 		document.body.style.backgroundSize = "cover";
+		document.body.style.color = "white";
 		React.render(<SignUpPortal routing={this} user={user} />, containerEl);
+	},
+	averaging: function(){
+		React.render(<AppBanner loggedInUser={user} routing={this}/>, document.getElementById("banner"));
+		React.render(<AveragePage routing={this} user={user} />, containerEl);
 	},
 	application: function(type){
 		var that = this;
@@ -45,6 +53,7 @@ var App = Backbone.Router.extend({
 			},
 			success: function(model){
 				document.body.style.background = "#EFEFEF"
+				document.body.style.color = "#666666"
 				React.render(<AppBanner loggedInUser={user} routing={that}/>, document.getElementById("banner"));
 				console.log(user);
 				if(type === "non-profit" && user.attributes.userType === type){
