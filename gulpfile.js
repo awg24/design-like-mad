@@ -36,7 +36,7 @@ gulp.task('webserver', function() {
 gulp.task('serveprod', function() {
   connect.server({
     root: "~/projects/design-like-mad",
-    port: process.env.PORT || 5000, // localhost:5000
+    port: process.env.PORT || 8000, // localhost:5000
     livereload: false
   });
 });
