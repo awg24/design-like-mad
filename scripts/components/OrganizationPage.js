@@ -12,7 +12,11 @@ module.exports = React.createClass({
 		userCollection.fetch({
 			query: {userType:"applicant"},
 			success: function(data){
-				that.setState({applicants: data, pdfFile:data.models[0].attributes.portfolioUrl});
+				if(data.models[0].attributes.portfolioUrl){
+					that.setState({applicants: data, pdfFile:data.models[0].attributes.portfolioUrl});
+				} else {
+					that.setState({applicants: data, pdfFile:data.models[0].attributes.developerLinks});
+				}
 			},
 			error: function(err){
 				console.log(err);
@@ -46,7 +50,7 @@ module.exports = React.createClass({
 		}
 		return (
 			<div className="give-top-margin container">
-				<div className="text-left give-border div-width col-sm-4">
+				<div className="text-left give-border div-width col-sm-4 make-scroll">
 					<h4>Applicants</h4><br/><br/>
 					<div className="bottom-border">
 						<label>Name</label>
@@ -69,8 +73,12 @@ module.exports = React.createClass({
 			userClicked.fetch({
 				query: {username: event.target.innerHTML},
 				success: function(data){
-					console.log(data.models[0].attributes.portfolioUrl);
-					that.setState({pdfFile: data.models[0].attributes.portfolioUrl});
+					console.log("called",data.models[0].attributes.developerLinks);
+					if(data.models[0].attributes.portfolioUrl){
+						that.setState({pdfFile: data.models[0].attributes.portfolioUrl});
+					} else {
+						that.setState({pdfFile: data.models[0].attributes.developerLinks});
+					}
 				}
 			});
 		}
@@ -102,10 +110,8 @@ module.exports = React.createClass({
 						}
 						relation.save();
 					}
-				});
-				
+				});	
 			}
-		})
-		
+		})	
 	}
 });

@@ -17,7 +17,14 @@ module.exports = Backbone.Model.extend({
 		portfolioUrl: null,
 		userType: null,
 		desginerType: null,
-		skillRating: null
+		skillRating: null,
+		developerLinks: null,
+		tshirtSize: null,
+		additionalSkill: null,
+		additionalComments: null,
+		phoneNumner: null,
+		userEdu:null
+
 	},
 	validate: function(attr){
 		var errors = {};
